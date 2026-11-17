@@ -66,6 +66,13 @@ GRAIN = ("data:image/svg+xml;utf8,"
 # retention on a vertical short. The card holds almost to the next hit and
 # clears for a brief, proportional gap.
 MIN_HOLD = .26
+LINE_H = .86                     # must match .card line-height in the CSS
+
+# A broadside does not set every block in the middle of the sheet. Anchors are
+# walked in a fixed order so the position changes from card to card without
+# ever being random; figures, the emphasis card and the finale stay centred.
+ANCHORS = [(.42, "center"), (.60, "left"), (.36, "right"), (.52, "center"),
+           (.64, "right"), (.40, "left"), (.56, "center"), (.34, "left")]
 MAX_CLEAR = .34
 
 
@@ -150,6 +157,32 @@ def chunk(tokens, max_per=3, max_span=1.15):
             out.append(cur); cur = []
     if cur:
         out.append(cur)
+    return absorb_orphans(out)
+
+
+def absorb_orphans(chunks, short=7, cap=4):
+    """Rejoin a lone short word with its own sentence.
+
+    The three-word limit cuts sentence tails loose ("shelter is never" / "free"),
+    which leaves one small word alone on a whole sheet. Merging only happens
+    inside a sentence, so the punctuation breaks still hold.
+    """
+    out = []
+    for ch in chunks:
+        orphan = (len(ch) == 1 and not ch[0]["figure"]
+                  and len(ch[0]["text"]) <= short)
+        if orphan and out:
+            prev = out[-1]
+            if len(prev) < cap and not prev[-1].get("brk"):
+                prev.append(ch[0])
+                continue
+        out.append(ch)
+    # a leading orphan has no previous sentence to join - push it onto the next
+    if len(out) > 1 and len(out[0]) == 1 and not out[0][0]["figure"] \
+            and len(out[0][0]["text"]) <= short and not out[0][0].get("brk") \
+            and len(out[1]) < cap:
+        out[1].insert(0, out[0].pop())
+        out.pop(0)
     return out
 
 
@@ -223,8 +256,15 @@ def build(episode, timeline, out_path=None):
             f'<div class="blk" style="color:{ink};font-family:{face},serif;'
             f'opacity:{wear:.2f};font-size:{fs}px">{esc(w.upper())}</div>'
             for w, ink, face, wear, fs in rows)
+        block_h = sum(fs for *_, fs in rows) * LINE_H
+        if grp[0]["figure"] or final or key:
+            anchor, align = .48, "center"
+        else:
+            anchor, align = ANCHORS[n % len(ANCHORS)]
+        top = min(max(anchor * H - block_h / 2, 110), H - block_h - 110)
         klass = "card" + (" fig" if grp[0]["figure"] else "") + (" fin" if final else "")
-        cards.append(f'<div class="{klass}" id="k{n}">{inner}</div>')
+        cards.append(f'<div class="{klass}" id="k{n}" '
+                     f'style="top:{top:.0f}px;text-align:{align}">{inner}</div>')
         js.append(f'  press("#k{n}", {start:.2f}, {hold:.2f}, '
                   f'{str(bool(grp[0]["figure"])).lower()}, {str(final).lower()});')
         n += 1
@@ -246,8 +286,8 @@ def build(episode, timeline, out_path=None):
       *{{margin:0;padding:0;box-sizing:border-box}}
       html,body{{width:{W}px;height:{H}px;overflow:hidden;background:{STOCK}}}
       #root{{width:100%;height:100%;position:relative;overflow:hidden;background:{STOCK}}}
-      #stage{{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}}
-      .card{{position:absolute;width:100%;text-align:center;visibility:hidden;opacity:0;
+      #stage{{position:absolute;inset:0}}
+      .card{{position:absolute;left:0;right:0;visibility:hidden;opacity:0;
         line-height:.86;letter-spacing:-.008em;padding:0 44px}}
       .card.fig{{line-height:.92}}
       .blk{{display:block}}
