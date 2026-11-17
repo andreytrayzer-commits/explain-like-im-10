@@ -1,0 +1,12 @@
+{
+  "name": "explain-like-im-10",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Vertical shorts pipeline: edge-tts voice, HyperFrames visuals, ffmpeg delivery",
+  "scripts": {
+    "render": "hyperframes render --project hf"
+  },
+  "dependencies": {
+    "hyperframes": "^0.9.61"
+  }
+}

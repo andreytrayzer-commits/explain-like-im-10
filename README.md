@@ -11,6 +11,7 @@
 | Голос | **edge-tts** — нейронные голоса Microsoft + тайминги по словам | 0 |
 | Графика, персонаж | **Pillow**, свой код — `art.py` | 0 |
 | Субтитры | **libass**, генерим ASS с подсветкой слова | 0 |
+| Анимация | **HyperFrames** (Apache-2.0) — HTML/GSAP → MP4 | 0 |
 
 > Homebrew на этой машине для ffmpeg не годится: для macOS 12 бутылок больше нет,
 > `brew install ffmpeg` уходит в сборку из исходников на часы. Поэтому бинарник
@@ -19,14 +20,44 @@
 Установка с нуля:
 
 ```bash
-pip3 install imageio-ffmpeg edge-tts Pillow
+pip3 install imageio-ffmpeg edge-tts Pillow static-ffmpeg
+npm install
+```
+
+`static-ffmpeg` нужен только ради `ffprobe` — его требует HyperFrames,
+а `imageio-ffmpeg` поставляет один лишь `ffmpeg`.
+
+## Два движка отрисовки
+
+| | `make_video.py` (Pillow) | `make_video_hf.py` (HyperFrames) |
+|---|---|---|
+| Как рисует | кадр за кадром в Python | HTML + GSAP через headless Chrome |
+| Анимация | камера, появление элементов, плавные позы | то же плюс траектории, инерция, пружины, морфинг, Lottie |
+| Скорость (твоя машина) | ~121 мс/кадр | ~115 мс/кадр |
+| На раннере CI | один поток | до 4 воркеров |
+| Зависимости | только pip | плюс Node 22+ и Chrome |
+
+Основной — HyperFrames. Pillow оставлен рабочим запасным вариантом: он не требует
+Node и браузера, поэтому заведётся где угодно.
+
+Фоны в обоих случаях рисует `art.py`. Для HyperFrames они выгружаются в PNG:
+
+```bash
+cd pipeline && python3 export_assets.py
 ```
 
 ## Как сделать видео
 
 ```bash
 cd pipeline
-python3 make_video.py ../scripts/renting.json
+python3 make_video_hf.py ../scripts/renting.json     # основной движок
+python3 make_video.py    ../scripts/renting.json     # запасной, без Node
+```
+
+Перед первым запуском HyperFrames:
+
+```bash
+npm install
 ```
 
 Готовый mp4 (1080×1920, H.264) ляжет в `out/`.

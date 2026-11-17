@@ -3,3 +3,6 @@ assets/cache/
 __pycache__/
 *.pyc
 .DS_Store
+node_modules/
+hf/renders/
+hf/index.html
