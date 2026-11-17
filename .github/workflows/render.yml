@@ -38,8 +38,15 @@ jobs:
       # Liberation Sans stands in for Arial in the burned-in captions;
       # config.py picks it up. The HyperFrames composition pulls its own
       # display face from Google Fonts, so it needs nothing installed here.
-      - name: Install fonts
-        run: sudo apt-get update -qq && sudo apt-get install -y -qq fonts-liberation
+      # ffmpeg here brings ffprobe, which HyperFrames requires. The pip route
+      # (imageio-ffmpeg + static-ffmpeg) is for macOS, where Homebrew has no
+      # bottles for this OS version; on a runner the distro package is simpler
+      # and does not depend on a binary fetch at render time.
+      - name: Install ffmpeg and fonts
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg fonts-liberation
+          ffprobe -version | head -1
 
       - name: Install deps
         run: |
