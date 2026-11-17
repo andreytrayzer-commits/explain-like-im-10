@@ -37,7 +37,13 @@ REF = 100
 
 @lru_cache(maxsize=16)
 def _font(file):
-    return ImageFont.truetype(os.path.join(FONT_DIR, file), REF)
+    path = os.path.join(FONT_DIR, file)
+    if not os.path.exists(path):
+        raise FileNotFoundError(
+            f"display face missing: {path}\n"
+            "Word widths are measured from the real font metrics, so the build "
+            "cannot proceed without it. Run: python3 pipeline/fetch_fonts.py")
+    return ImageFont.truetype(path, REF)
 
 
 @lru_cache(maxsize=4096)
