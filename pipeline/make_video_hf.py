@@ -16,10 +16,26 @@ HF_BIN = os.path.join(ROOT, "node_modules", ".bin", "hyperframes")
 
 
 def _hf_env():
-    """ffmpeg and ffprobe must both be on PATH for the renderer."""
+    """ffmpeg and ffprobe must both be on PATH for the renderer.
+
+    imageio-ffmpeg ships ffmpeg only, so ffprobe comes from static-ffmpeg -
+    whose binaries are not on PATH until it is asked for them. Relying on a
+    hand-made ~/bin symlink worked locally and broke on a fresh runner.
+    """
+    dirs = [os.path.dirname(FF)]
+    try:
+        import static_ffmpeg.run as sfr
+        ffmpeg_path, ffprobe_path = sfr.get_or_fetch_platform_executables_else_raise()
+        dirs.append(os.path.dirname(ffprobe_path))
+    except Exception as e:
+        print(f"  warning: could not locate ffprobe via static-ffmpeg ({e})")
+    local = os.path.expanduser("~/bin")
+    if os.path.isdir(local):
+        dirs.append(local)
     env = dict(os.environ)
-    env["PATH"] = os.path.dirname(FF) + os.pathsep + \
-        os.path.expanduser("~/bin") + os.pathsep + env.get("PATH", "")
+    env["PATH"] = os.pathsep.join(dirs) + os.pathsep + env.get("PATH", "")
+    if not shutil.which("ffprobe", path=env["PATH"]):
+        raise RuntimeError("ffprobe not found on PATH - HyperFrames requires it")
     return env
 
 

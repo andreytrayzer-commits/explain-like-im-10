@@ -6,6 +6,8 @@ on:
   push:
     paths:
       - "scripts/queue/**"   # a new script in the queue renders itself
+      - "pipeline/**"        # and a change to the renderer re-proves itself
+      - ".github/workflows/**"
   workflow_dispatch:
     inputs:
       engine:
