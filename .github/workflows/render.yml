@@ -3,6 +3,9 @@ name: render shorts
 on:
   schedule:
     - cron: "0 6 * * *"      # 06:00 UTC daily
+  push:
+    paths:
+      - "scripts/queue/**"   # a new script in the queue renders itself
   workflow_dispatch:
     inputs:
       engine:

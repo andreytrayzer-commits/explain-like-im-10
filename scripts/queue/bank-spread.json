@@ -1,0 +1,35 @@
+{
+  "slug": "bank-spread",
+  "style": "letterpress",
+  "voice": "en_m",
+  "rate": "+6%",
+  "title": "Why your bank pays you 1% and charges you 20%",
+  "description": "The gap between what a bank pays savers and charges borrowers is not a fee. It is the business.\n\nNew video every day.",
+  "tags": [
+    "banking",
+    "interest rates",
+    "credit cards",
+    "savings",
+    "financial literacy"
+  ],
+  "scenes": [
+    {
+      "say": "Your bank pays you about one percent on your savings. The same bank charges you about twenty percent on your card."
+    },
+    {
+      "say": "That gap is not a fee you can avoid. It is the entire business."
+    },
+    {
+      "say": "A bank is not a safe place that keeps your money. It is a shop that buys money cheaply and sells it expensively."
+    },
+    {
+      "say": "It buys from savers at one percent. It sells to borrowers at twenty. The nineteen in between is what pays for everything."
+    },
+    {
+      "say": "Which tells you which side of that counter you want to stand on, and how expensive it is to stand on the wrong one."
+    },
+    {
+      "say": "You are not a customer of a bank. You are either its supplier or its product."
+    }
+  ]
+}
