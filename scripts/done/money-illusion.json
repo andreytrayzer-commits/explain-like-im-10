@@ -1,0 +1,32 @@
+{
+  "slug": "money-illusion",
+  "title": "The raise that made you poorer",
+  "description": "A 3% raise in a 5% inflation year is a pay cut. Here's the money illusion, explained simply.\n\nNew video every day.",
+  "tags": ["money illusion", "inflation", "personal finance", "salary negotiation", "financial literacy"],
+  "voice": "en_m",
+  "rate": "+6%",
+  "scenes": [
+    {
+      "bg": "outdoor",
+      "headline": ["You got a 3% raise.", "You got poorer.", "Both are true."],
+      "highlight": 1,
+      "poses": ["talk", "present"],
+      "char_scale": 1.45, "char_y": 0.845,
+      "say": "You got a three percent raise. Prices went up five percent. You just took a pay cut while celebrating."
+    },
+    {
+      "bg": "board",
+      "character": false,
+      "diagram": {"kind": "bars", "y": 600, "items": [["your raise", 0.30, "green"], ["prices", 0.50, "red"]]},
+      "say": "Your brain counts the number on the payslip. Your wallet counts what that number buys. Economists call the gap the money illusion."
+    },
+    {
+      "bg": "outdoor",
+      "headline": ["Ask for inflation", "plus your growth."],
+      "highlight": 0,
+      "poses": ["point", "talk"],
+      "char_scale": 1.45, "char_y": 0.845,
+      "say": "So never negotiate against zero. Inflation is the floor. Anything below it is a cut with a nicer name. Follow for more."
+    }
+  ]
+}

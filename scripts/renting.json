@@ -1,0 +1,111 @@
+{
+  "slug": "renting-not-wasted",
+  "title": "Why renting isn't throwing money away",
+  "voice": "en_m",
+  "rate": "+6%",
+  "caption_size": 76,
+  "caption_margin": 260,
+  "scenes": [
+    {
+      "bg": "outdoor",
+      "headline": [
+        "Renting is",
+        "throwing money away",
+        "right?"
+      ],
+      "highlight": 1,
+      "poses": [
+        "talk",
+        "present"
+      ],
+      "char_scale": 1.45,
+      "char_y": 0.845,
+      "char_x": 0.5,
+      "say": "You have heard it your whole life. Renting is throwing money away. Buying builds wealth. But that sentence hides something."
+    },
+    {
+      "bg": "board",
+      "diagram": {
+        "kind": "lines",
+        "y": 820,
+        "size": 64,
+        "items": [
+          "YOU PAY FOR SHELTER",
+          "EITHER WAY.",
+          "THE ONLY QUESTION IS",
+          "WHO YOU PAY."
+        ],
+        "highlight": 3
+      },
+      "character": false,
+      "say": "Shelter is never free. A renter pays a landlord. An owner pays a bank, a tax office, and a roof that keeps breaking."
+    },
+    {
+      "bg": "board",
+      "diagram": {
+        "kind": "bars",
+        "y": 620,
+        "items": [
+          [
+            "rent",
+            0.62,
+            "green"
+          ],
+          [
+            "interest, tax, upkeep",
+            0.71,
+            "red"
+          ]
+        ]
+      },
+      "character": false,
+      "say": "In the first years of a mortgage, almost every payment goes to interest, not to the house. Add property tax, insurance and repairs, and a big slice of an owner's money disappears too."
+    },
+    {
+      "bg": "outdoor",
+      "headline": [
+        "The real question:",
+        "what do you do",
+        "with the difference?"
+      ],
+      "highlight": 2,
+      "headline_top": 130,
+      "poses": [
+        "present",
+        "talk"
+      ],
+      "char_scale": 1.45,
+      "char_y": 0.845,
+      "say": "So the real question is not rent or buy. It is this. What do you do with the money you did not spend?"
+    },
+    {
+      "bg": "board",
+      "diagram": {
+        "kind": "growth",
+        "y": 560,
+        "labels": [
+          "spend it",
+          "invest it"
+        ]
+      },
+      "character": false,
+      "say": "A renter who invests the difference can finish ahead. A renter who spends it finishes behind. The house was never the magic part."
+    },
+    {
+      "bg": "outdoor",
+      "headline": [
+        "Renting is rent.",
+        "Owning is rent",
+        "you pay to a bank."
+      ],
+      "highlight": 1,
+      "poses": [
+        "cheer",
+        "present"
+      ],
+      "char_scale": 1.45,
+      "char_y": 0.845,
+      "say": "Renting is not wasted money. It is just a different landlord. Follow for more money ideas explained simply."
+    }
+  ]
+}
