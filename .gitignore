@@ -8,3 +8,4 @@ hf/renders/
 hf/index.html
 styles/
 hf/assets/fonts/
+ci-logs/render.log

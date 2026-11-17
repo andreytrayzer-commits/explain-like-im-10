@@ -57,9 +57,29 @@ jobs:
         run: cd pipeline && python export_assets.py
 
       - name: Render the queue
+        id: render
         run: |
+          mkdir -p ci-logs
           cd pipeline
-          python run_batch.py ${{ (github.event.inputs.engine == 'pillow') && '--pillow' || '' }}
+          set -o pipefail
+          python -u run_batch.py ${{ (github.event.inputs.engine == 'pillow') && '--pillow' || '' }} \
+            2>&1 | tee ../ci-logs/render.log
+
+      # Workflow logs need admin rights to fetch over the API, so a failure is
+      # invisible to anyone without them. Commit the tail of the log instead:
+      # the repository is readable, so the error can be diagnosed from outside.
+      - name: Publish the failure log
+        if: failure()
+        run: |
+          mkdir -p ci-logs
+          { echo "run ${{ github.run_number }} - ${{ github.sha }}"; echo;
+            tail -n 120 ci-logs/render.log 2>/dev/null || echo "(no render.log produced)"; 
+          } > ci-logs/last-failure.txt
+          git config user.name  "render-bot"
+          git config user.email "render-bot@users.noreply.github.com"
+          git add -f ci-logs/last-failure.txt
+          git commit -m "ci: record failure log for run ${{ github.run_number }}" || true
+          git push || true
 
       - name: Upload finished shorts
         uses: actions/upload-artifact@v4
