@@ -1,0 +1,35 @@
+{
+  "slug": "credit-score-paradox",
+  "title": "Why your credit score punishes you for having no debt",
+  "description": "Pay cash for everything and your score can be worse than someone in debt. Here is the reason.\n\nNew video every day.",
+  "tags": [
+    "credit score",
+    "credit cards",
+    "personal finance",
+    "borrowing",
+    "financial literacy"
+  ],
+  "style": "letterpress",
+  "voice": "en_m",
+  "rate": "+6%",
+  "scenes": [
+    {
+      "say": "You have no debt. You pay cash for everything. And your credit score is worse than your friend who owes money."
+    },
+    {
+      "say": "That feels broken. It is not. It is measuring something other than what you think."
+    },
+    {
+      "say": "A credit score does not measure wealth. It measures how reliably you repay borrowed money. If you have never borrowed, there is nothing to measure."
+    },
+    {
+      "say": "To a lender, no history is not the same as a good history. It is an empty file. And an empty file is a risk."
+    },
+    {
+      "say": "That is why someone with a small, boring, always paid card can score higher than someone with no card at all."
+    },
+    {
+      "say": "You are not scored on how good you are with your money. You are scored on how predictable you are with theirs."
+    }
+  ]
+}

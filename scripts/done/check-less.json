@@ -1,0 +1,35 @@
+{
+  "slug": "check-less",
+  "title": "Why checking your investments makes you worse at investing",
+  "description": "The more often you look, the more losses you see, and the worse your decisions get.\n\nNew video every day.",
+  "tags": [
+    "investing psychology",
+    "loss aversion",
+    "long term investing",
+    "behavioural finance",
+    "financial literacy"
+  ],
+  "style": "letterpress",
+  "voice": "en_m",
+  "rate": "+6%",
+  "scenes": [
+    {
+      "say": "Two people own the same fund. One checks it every day. One checks it once a year. After thirty years they do not have the same amount."
+    },
+    {
+      "say": "Markets rise over long stretches and fall over short ones. Check daily, and you will see a losing day about half the time."
+    },
+    {
+      "say": "Check once a year, and you mostly see a number that has gone up."
+    },
+    {
+      "say": "Same fund. Same returns. A completely different emotional experience."
+    },
+    {
+      "say": "And emotion is what moves your finger. The person watching every loss is the person who sells during the crash."
+    },
+    {
+      "say": "Looking at your money more often does not give you more control. It gives you more chances to panic."
+    }
+  ]
+}

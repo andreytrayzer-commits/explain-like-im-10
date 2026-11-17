@@ -1,0 +1,35 @@
+{
+  "slug": "saving-makes-you-poorer",
+  "title": "Why keeping money safe is a slow way to lose it",
+  "description": "Cash in a low interest account loses value every year it sits there. The maths of a quiet loss.\n\nNew video every day.",
+  "tags": [
+    "inflation",
+    "saving money",
+    "cash",
+    "purchasing power",
+    "financial literacy"
+  ],
+  "style": "letterpress",
+  "voice": "en_m",
+  "rate": "+6%",
+  "scenes": [
+    {
+      "say": "You did the responsible thing. You saved. You did not gamble. And every year you got a little poorer."
+    },
+    {
+      "say": "Cash does not lose value in a way you can see. The number on the screen never drops. The number just stops meaning as much."
+    },
+    {
+      "say": "At three percent inflation, money sitting still loses about half its buying power in twenty three years."
+    },
+    {
+      "say": "Which means a safe account is not actually safe. It is a slow, almost guaranteed loss, dressed up as caution."
+    },
+    {
+      "say": "This is not an argument for taking risk. It is an argument for noticing that doing nothing is also a decision, and it has a price."
+    },
+    {
+      "say": "Safe and still are not the same word. Follow for more."
+    }
+  ]
+}

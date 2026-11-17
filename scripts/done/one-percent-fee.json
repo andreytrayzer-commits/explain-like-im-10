@@ -1,0 +1,35 @@
+{
+  "slug": "one-percent-fee",
+  "title": "The 1% fee that eats a third of your pension",
+  "description": "A fee too small to notice, compounding for forty years. Here is what one percent actually costs.\n\nNew video every day.",
+  "tags": [
+    "investment fees",
+    "index funds",
+    "compound interest",
+    "pension",
+    "financial literacy"
+  ],
+  "style": "letterpress",
+  "voice": "en_m",
+  "rate": "+6%",
+  "scenes": [
+    {
+      "say": "You picked the right fund. You held it for forty years. And you still lost almost a third of it."
+    },
+    {
+      "say": "Not to a crash. To a fee of one percent a year. A number so small it looks like a rounding error."
+    },
+    {
+      "say": "Here is why it is not. The fee does not come out of your gains. It comes out of your balance, every single year, including the years you are down."
+    },
+    {
+      "say": "So it does not subtract. It compounds, in the wrong direction. Over forty years, one percent a year quietly removes about thirty percent of what you would have had."
+    },
+    {
+      "say": "A fund returning seven percent that charges one is not beating a fund returning six that charges nothing. It is the same fund with a worse ending."
+    },
+    {
+      "say": "Fees are the one part of investing you actually control. Follow for more money ideas explained simply."
+    }
+  ]
+}

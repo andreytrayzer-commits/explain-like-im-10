@@ -1,0 +1,35 @@
+{
+  "slug": "sale-is-the-product",
+  "title": "Why a sale is designed to make you spend more",
+  "description": "A discount does not save you money. It moves the number you are comparing against.\n\nNew video every day.",
+  "tags": [
+    "discounts",
+    "anchoring",
+    "consumer psychology",
+    "spending habits",
+    "financial literacy"
+  ],
+  "style": "letterpress",
+  "voice": "en_m",
+  "rate": "+6%",
+  "scenes": [
+    {
+      "say": "A thing you were not going to buy is now thirty percent off. And suddenly you are buying it."
+    },
+    {
+      "say": "Nothing about the thing changed. Only the number next to it did."
+    },
+    {
+      "say": "The old price was never really the price. It was there to be crossed out. Its job is to be the thing the new price looks good against."
+    },
+    {
+      "say": "Your brain does not judge a price on its own. It judges it against whatever number it saw last. Show it a big number first, and the second one feels like a win."
+    },
+    {
+      "say": "So you did not save thirty percent. You spent one hundred percent of a number you had not planned to spend at all."
+    },
+    {
+      "say": "A discount on something you do not need is not a saving. It is a purchase with a compliment attached."
+    }
+  ]
+}

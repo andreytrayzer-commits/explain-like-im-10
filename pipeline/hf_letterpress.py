@@ -323,8 +323,12 @@ def build(episode, timeline, out_path=None):
       // the platen comes down: overshoot, then a hard settle
       function press(sel, at, hold, figure, final){{
         tl.set(sel, {{visibility:"visible"}}, at);
+        // The entry must never exceed the settled size. A block set hard left
+        // or right is off-centre, and scaling about the card's centre pushed
+        // its near edge past the frame - letters were being clipped for the
+        // two or three frames of the entry.
         tl.fromTo(sel,
-          {{opacity:0, scale: figure ? 1.22 : 1.09, y: figure ? 0 : -16}},
+          {{opacity:0, scale: figure ? .88 : .95, y: figure ? 0 : -16}},
           {{opacity:1, scale:1, y:0, duration: figure ? .17 : .13,
             ease:"power4.out", immediateRender:false}}, at);
         if(final){{

@@ -4,7 +4,7 @@ scripts/done/. Safe to run unattended: one bad episode does not stop the rest.
 
     python3 run_batch.py [--limit N]
 """
-import glob, json, os, shutil, sys, traceback
+import glob, json, os, shutil, sys, time, traceback
 from config import ROOT, OUT
 
 QUEUE = os.path.join(ROOT, "scripts", "queue")
@@ -39,13 +39,21 @@ def main(limit=None, pillow=False):
             shutil.move(j, os.path.join(DONE, os.path.basename(j)))
             continue
         print(f"== {slug}")
-        try:
-            render(j)
-            shutil.move(j, os.path.join(DONE, os.path.basename(j)))
-            ok += 1
-        except Exception:
-            traceback.print_exc()
-            fail += 1
+        # The speech endpoint drops a request now and then. One retry turns a
+        # silently missing video into a two-minute delay.
+        for attempt in (1, 2):
+            try:
+                render(j)
+                shutil.move(j, os.path.join(DONE, os.path.basename(j)))
+                ok += 1
+                break
+            except Exception:
+                traceback.print_exc()
+                if attempt == 2:
+                    fail += 1
+                else:
+                    print(f"   {slug}: retrying once")
+                    time.sleep(5)
     print(f"done: {ok} rendered, {fail} failed")
     return 1 if fail else 0
 

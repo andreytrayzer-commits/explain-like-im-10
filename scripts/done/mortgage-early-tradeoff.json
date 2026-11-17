@@ -1,0 +1,35 @@
+{
+  "slug": "mortgage-early-tradeoff",
+  "title": "Why paying off your mortgage early is not obviously right",
+  "description": "Clearing debt early feels correct. The maths is a trade, not a rule. Here is both sides.\n\nNew video every day.",
+  "tags": [
+    "mortgage",
+    "debt repayment",
+    "opportunity cost",
+    "investing",
+    "financial literacy"
+  ],
+  "style": "letterpress",
+  "voice": "en_m",
+  "rate": "+6%",
+  "scenes": [
+    {
+      "say": "Paying off your mortgage early feels like the obviously correct thing to do. It is not obvious. It is a trade."
+    },
+    {
+      "say": "Every extra payment buys you a guaranteed return equal to your interest rate. Pay down a four percent mortgage, and you have earned a certain four percent."
+    },
+    {
+      "say": "The same money invested might earn more. Might. That word is doing a lot of work."
+    },
+    {
+      "say": "So the real question is not which number is bigger. It is which you need more: the higher expected return, or the certainty."
+    },
+    {
+      "say": "Someone who sleeps badly with debt is buying something real with that extra payment. It just is not measured in percent."
+    },
+    {
+      "say": "There is no universal answer here. There is only your rate, your options and your nerves."
+    }
+  ]
+}

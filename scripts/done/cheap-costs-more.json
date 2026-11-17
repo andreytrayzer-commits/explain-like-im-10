@@ -1,0 +1,35 @@
+{
+  "slug": "cheap-costs-more",
+  "title": "Why cheap things are more expensive",
+  "description": "The boots theory of socioeconomic unfairness, explained in forty seconds.\n\nNew video every day.",
+  "tags": [
+    "frugality",
+    "buying quality",
+    "cost per use",
+    "spending habits",
+    "financial literacy"
+  ],
+  "style": "letterpress",
+  "voice": "en_m",
+  "rate": "+6%",
+  "scenes": [
+    {
+      "say": "Two people buy boots. One spends fifty. One spends ten. Ten years later, the one who spent fifty has spent less."
+    },
+    {
+      "say": "The cheap boots last one winter. So you buy them again. And again. Ten winters, ten pairs, one hundred pounds."
+    },
+    {
+      "say": "The good boots last ten years. Fifty pounds, once."
+    },
+    {
+      "say": "So the person who could afford the better boots paid half as much for dry feet."
+    },
+    {
+      "say": "This is the quiet unfairness of being short of money. Being poor is expensive, because you are forced to keep buying the version that does not last."
+    },
+    {
+      "say": "The real price of a thing is not what it costs. It is what it costs per year."
+    }
+  ]
+}
