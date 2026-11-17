@@ -1,7 +1,7 @@
 {
   "version": 1,
   "historyId": "c38fe031-efde-4a83-b3be-3cc0f1e84ea6",
-  "currentRevision": "c7884432-a814-482f-8955-12b1d3613e81",
+  "currentRevision": "3c6e70e2-1a16-4820-a779-89fe3acd4c74",
   "pendingChanges": false,
   "files": {
     "assets/bg_board.png": {
@@ -21,8 +21,8 @@
       "content": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/53/53dbce1e19aa713cbb12ee0bc4d206143b45ab15e6ffbfcaa8f69572d4d24d50"
     },
     "index.html": {
-      "hash": "da8ce825cfb6e7b060a540b5c1f566af394b4148486575c55a05a98caee17765",
-      "content": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/da/da8ce825cfb6e7b060a540b5c1f566af394b4148486575c55a05a98caee17765"
+      "hash": "9d93a4920ee7f85ac37cf71569878305fbea31fddadeeb9509923bbbba9fab2a",
+      "content": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/9d/9d93a4920ee7f85ac37cf71569878305fbea31fddadeeb9509923bbbba9fab2a"
     },
     "meta.json": {
       "hash": "e746a3f513dcda694bc401801e86a35404770c8c4dc5c438933472317785e12e",
@@ -78,6 +78,51 @@
           "after": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/da/da8ce825cfb6e7b060a540b5c1f566af394b4148486575c55a05a98caee17765"
         }
       }
+    },
+    "401cb4b7-48ab-41db-be4f-ffb00daf8370": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1794921956271,
+      "endedAt": 1794921956272,
+      "files": {
+        "index.html": {
+          "before": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/da/da8ce825cfb6e7b060a540b5c1f566af394b4148486575c55a05a98caee17765",
+          "after": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/bb/bb7c00e8f24ebb84e3d6d76778ceb26f0ef0e5f03cb95fb18856387fe9f9a0de"
+        }
+      }
+    },
+    "96b67929-9510-48e2-840c-b52febac9cd5": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1794922078287,
+      "endedAt": 1794922078289,
+      "files": {
+        "index.html": {
+          "before": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/bb/bb7c00e8f24ebb84e3d6d76778ceb26f0ef0e5f03cb95fb18856387fe9f9a0de",
+          "after": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/7b/7ba9ab036459683b67509132e685ba81bc0ffe78552b5555a1a5466b84600bf9"
+        }
+      }
+    },
+    "3c6e70e2-1a16-4820-a779-89fe3acd4c74": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1794922182159,
+      "endedAt": 1794922182160,
+      "files": {
+        "index.html": {
+          "before": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/7b/7ba9ab036459683b67509132e685ba81bc0ffe78552b5555a1a5466b84600bf9",
+          "after": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/9d/9d93a4920ee7f85ac37cf71569878305fbea31fddadeeb9509923bbbba9fab2a"
+        }
+      }
     }
   },
   "checks": {
@@ -92,15 +137,15 @@
   },
   "renders": {
     "latest": {
-      "id": "bfa096c8-1e77-4d70-9e36-926aa472a0ab",
-      "completedAt": 1794921760064,
-      "output": "/Users/air/Desktop/ YouTube/hf/renders/hf_2026-11-17_14-22-00.mp4",
+      "id": "86aa9d2e-6c74-416e-b085-9e25e977d08f",
+      "completedAt": 1794922245160,
+      "output": "/Users/air/Desktop/ YouTube/hf/renders/hf_2026-11-17_14-29-40.mp4",
       "status": "completed",
-      "revision": "c7884432-a814-482f-8955-12b1d3613e81"
+      "revision": "3c6e70e2-1a16-4820-a779-89fe3acd4c74"
     },
     "retainedRevisions": [
-      "c7884432-a814-482f-8955-12b1d3613e81",
-      "2d034916-6bde-4fcd-8a31-1f1d9bcb1447"
+      "3c6e70e2-1a16-4820-a779-89fe3acd4c74",
+      "96b67929-9510-48e2-840c-b52febac9cd5"
     ]
   },
   "pendingArtifactCleanup": []
