@@ -8,7 +8,7 @@ the visual layer differs: a GSAP composition rendered through headless Chrome
 instead of frames composited in Pillow.
 """
 import json, os, shutil, subprocess, sys, tempfile, time
-import hf_build, make_video, subs, tts
+import hf_build, hf_kinetic, make_video, subs, tts
 from config import *
 
 FF = ffmpeg_bin()
@@ -23,7 +23,10 @@ def _hf_env():
     return env
 
 
-def render(episode_path, out_name=None, strict=True):
+BUILDERS = {"doodle": hf_build, "kinetic": hf_kinetic}
+
+
+def render(episode_path, out_name=None, strict=True, style=None):
     ep = json.load(open(episode_path, encoding="utf-8"))
     name = out_name or ep.get("slug") or os.path.splitext(os.path.basename(episode_path))[0]
     os.makedirs(OUT, exist_ok=True)
@@ -53,7 +56,8 @@ def render(episode_path, out_name=None, strict=True):
                          margin_v=ep.get("caption_margin", 250))
 
     # ---- 2. composition -> MP4 through HyperFrames
-    comp, total = hf_build.build(ep, timeline)
+    builder = BUILDERS[style or ep.get("style", "doodle")]
+    comp, total = builder.build(ep, timeline)
     print(f"  composition: {comp} ({total:.1f}s)")
 
     lint = subprocess.run([HF_BIN, "lint"], cwd=hf_build.HF, env=_hf_env(),
@@ -83,9 +87,11 @@ def render(episode_path, out_name=None, strict=True):
 
     # ---- 3. captions + audio
     out = os.path.join(OUT, f"{name}.mp4")
+    burn = builder is not hf_kinetic
     subprocess.run(
-        [FF, "-y", "-hide_banner", "-loglevel", "error", "-i", silent, "-i", audio,
-         "-vf", f"ass={ass}:fontsdir={os.path.dirname(CAPTION_FONT_FILE)}",
+        [FF, "-y", "-hide_banner", "-loglevel", "error", "-i", silent, "-i", audio]
+        + (["-vf", f"ass={ass}:fontsdir={os.path.dirname(CAPTION_FONT_FILE)}"] if burn else []) +
+        [
          "-c:v", "libx264", "-preset", ep.get("preset", "veryfast"),
          "-crf", str(ep.get("crf", 20)), "-pix_fmt", "yuv420p",
          "-c:a", "aac", "-b:a", "160k", "-shortest", "-movflags", "+faststart", out],
@@ -109,4 +115,5 @@ if __name__ == "__main__":
     if not args:
         sys.exit("usage: make_video_hf.py <episode.json> [out_name] [--loose]")
     render(args[0], args[1] if len(args) > 1 else None,
-           strict="--loose" not in sys.argv)
+           strict="--loose" not in sys.argv,
+           style=next((a.split("=")[1] for a in sys.argv if a.startswith("--style=")), None))
