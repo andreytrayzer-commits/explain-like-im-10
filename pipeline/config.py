@@ -3,6 +3,12 @@ import os, subprocess
 
 W, H, FPS = 1080, 1920, 30
 
+# Scenes are composed on a canvas larger than the frame so the camera has room
+# to push in and pan without ever upscaling: the output window is cropped out of
+# this and downscaled, so the tightest shot is still pixel-exact.
+OVERSCAN = 1.25
+CW, CH = int(W * OVERSCAN), int(H * OVERSCAN)
+
 # Palette sampled from the existing @smartkidfinance shorts.
 INK        = (26, 26, 26)
 SKY_TOP    = (247, 251, 250)

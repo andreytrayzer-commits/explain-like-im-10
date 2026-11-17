@@ -132,20 +132,29 @@ def ribbon(dr, centerline, half_widths, fill, edge, rng, width=5):
 
 # ---------------------------------------------------------------- backgrounds
 
+def sky_layer(seed=7, pad=400):
+    """Clouds and birds on their own transparent strip so they can drift."""
+    rng = random.Random(seed)
+    w, h = (CW + pad) * SS, int(CH * .42) * SS
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    dr = ImageDraw.Draw(img)
+    for cx, cy, s_ in [(.17, .20, .085), (.46, .36, .056), (.68, .13, .070),
+                       (.88, .31, .048), (1.02, .18, .060)]:
+        cloud(dr, cx * w, cy * h, s_ * w, rng)
+    for bx, by, bs in [(.33, .17, .013), (.57, .25, .011), (.79, .20, .012), (.24, .33, .009)]:
+        bird(dr, bx * w, by * h, bs * w, rng)
+    return img.resize(((CW + pad), int(CH * .42)), Image.LANCZOS)
+
+
 def outdoor_bg(seed=7):
     rng = random.Random(seed)
-    w, h = W * SS, H * SS
+    w, h = CW * SS, CH * SS
     img = Image.new("RGB", (w, h), SKY_TOP)
     dr = ImageDraw.Draw(img)
     for y in range(h):
         t = y / h
         dr.line([(0, y), (w, y)],
                 fill=tuple(int(SKY_TOP[i] + (SKY_BOT[i] - SKY_TOP[i]) * t) for i in range(3)))
-
-    for cx, cy, s in [(.20, .085, .100), (.73, .052, .082), (.49, .150, .066), (.93, .128, .056)]:
-        cloud(dr, cx * w, cy * h, s * w, rng)
-    for bx, by, bs in [(.37, .072, .016), (.63, .100, .013), (.84, .082, .015), (.27, .130, .011)]:
-        bird(dr, bx * w, by * h, bs * w, rng)
 
     ribbon(dr, [(.46 * w, 1.08 * h), (.52 * w, .90 * h), (.40 * w, .76 * h), (.52 * w, .655 * h),
                 (.80 * w, .600 * h), (1.06 * w, .575 * h)],
@@ -163,12 +172,12 @@ def outdoor_bg(seed=7):
     for gx, gy, gs in [(.26, .760, .040), (.76, .715, .034), (.18, .930, .044),
                        (.86, .905, .036), (.47, .975, .038), (.66, .690, .028)]:
         grass(dr, gx * w, gy * h, gs * w, rng)
-    return img.resize((W, H), Image.LANCZOS)
+    return img.resize((CW, CH), Image.LANCZOS)
 
 
 def board_bg(seed=3):
     rng = random.Random(seed)
-    w, h = W * SS, H * SS
+    w, h = CW * SS, CH * SS
     img = Image.new("RGB", (w, h), BOARD_BG)
     dr = ImageDraw.Draw(img)
     grid = tuple(max(0, c - 7) for c in BOARD_BG)
@@ -179,7 +188,7 @@ def board_bg(seed=3):
         dr.line([(0, y), (h and y)], fill=grid, width=2) if False else dr.line([(0, y), (w, y)], fill=grid, width=2)
     for cx, cy, s in [(.18, .065, .072), (.83, .098, .058)]:
         cloud(dr, cx * w, cy * h, s * w, rng, fill=(242, 250, 255), edge=(206, 224, 236), width=4)
-    return img.resize((W, H), Image.LANCZOS)
+    return img.resize((CW, CH), Image.LANCZOS)
 
 
 # ---------------------------------------------------------------- character
@@ -211,10 +220,29 @@ POSES = {
 }
 
 
+def blend_pose(a, b, k):
+    """Mix two pose dicts so the character eases between them."""
+    if isinstance(a, str):
+        a = POSES[a]
+    if isinstance(b, str):
+        b = POSES[b]
+    if k <= 0:
+        return a
+    if k >= 1:
+        return b
+    out = {"lean": a["lean"] + (b["lean"] - a["lean"]) * k}
+    for part in ("arms", "legs"):
+        out[part] = [(sa[0],
+                      sa[1] + (sb[1] - sa[1]) * k,
+                      sa[2] + (sb[2] - sa[2]) * k)
+                     for sa, sb in zip(a[part], b[part])]
+    return out
+
+
 def character(scale=1.0, pose="talk", mouth=.5, blink=False, seed=11):
     """Stick figure on a transparent layer, cropped to its own bounds."""
     rng = random.Random(seed)
-    p = POSES.get(pose, POSES["talk"])
+    p = POSES.get(pose, POSES["talk"]) if isinstance(pose, str) else pose
     R = 62 * SS * scale
     LW = max(3, int(9 * SS * scale))
     img = Image.new("RGBA", (int(R * 9), int(R * 11)), (0, 0, 0, 0))
