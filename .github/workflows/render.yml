@@ -3,7 +3,13 @@ name: render shorts
 on:
   schedule:
     - cron: "0 6 * * *"      # 06:00 UTC daily
-  workflow_dispatch:          # and a manual "Run workflow" button
+  workflow_dispatch:
+    inputs:
+      engine:
+        description: "Renderer"
+        type: choice
+        options: [hyperframes, pillow]
+        default: hyperframes
 
 permissions:
   contents: write
@@ -19,15 +25,29 @@ jobs:
           python-version: "3.12"
           cache: pip
 
-      # Liberation Sans stands in for Arial on the runner; config.py picks it up.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      # Liberation Sans stands in for Arial in the burned-in captions;
+      # config.py picks it up. The HyperFrames composition pulls its own
+      # display face from Google Fonts, so it needs nothing installed here.
       - name: Install fonts
         run: sudo apt-get update -qq && sudo apt-get install -y -qq fonts-liberation
 
       - name: Install deps
-        run: pip install -r requirements.txt
+        run: |
+          pip install -r requirements.txt
+          npm ci || npm install
+
+      - name: Regenerate background assets
+        run: cd pipeline && python export_assets.py
 
       - name: Render the queue
-        run: cd pipeline && python run_batch.py
+        run: |
+          cd pipeline
+          python run_batch.py ${{ (github.event.inputs.engine == 'pillow') && '--pillow' || '' }}
 
       - name: Upload finished shorts
         uses: actions/upload-artifact@v4
@@ -39,7 +59,6 @@ jobs:
           retention-days: 90
           if-no-files-found: warn
 
-      # Keep the queue state so a rendered episode is not built twice.
       - name: Commit queue state
         run: |
           git config user.name  "render-bot"

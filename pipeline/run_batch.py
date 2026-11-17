@@ -5,22 +5,31 @@ scripts/done/. Safe to run unattended: one bad episode does not stop the rest.
     python3 run_batch.py [--limit N]
 """
 import glob, json, os, shutil, sys, traceback
-import make_video
 from config import ROOT, OUT
 
 QUEUE = os.path.join(ROOT, "scripts", "queue")
 DONE = os.path.join(ROOT, "scripts", "done")
 
 
-def main(limit=None):
+def pick_renderer(pillow=False):
+    if pillow:
+        import make_video
+        return make_video.render, "pillow"
+    import make_video_hf
+    return make_video_hf.render, "hyperframes"
+
+
+def main(limit=None, pillow=False):
     os.makedirs(QUEUE, exist_ok=True)
     os.makedirs(DONE, exist_ok=True)
+    render, engine = pick_renderer(pillow)
     jobs = sorted(glob.glob(os.path.join(QUEUE, "*.json")))
     if limit:
         jobs = jobs[:limit]
     if not jobs:
         print("queue is empty")
         return 0
+    print(f"renderer: {engine}")
     ok = fail = 0
     for j in jobs:
         slug = json.load(open(j, encoding="utf-8")).get("slug") or \
@@ -31,7 +40,7 @@ def main(limit=None):
             continue
         print(f"== {slug}")
         try:
-            make_video.render(j)
+            render(j)
             shutil.move(j, os.path.join(DONE, os.path.basename(j)))
             ok += 1
         except Exception:
@@ -45,4 +54,4 @@ if __name__ == "__main__":
     lim = None
     if "--limit" in sys.argv:
         lim = int(sys.argv[sys.argv.index("--limit") + 1])
-    sys.exit(main(lim))
+    sys.exit(main(lim, pillow="--pillow" in sys.argv))

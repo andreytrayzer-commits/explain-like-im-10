@@ -1,7 +1,7 @@
 {
   "version": 1,
   "historyId": "c38fe031-efde-4a83-b3be-3cc0f1e84ea6",
-  "currentRevision": null,
+  "currentRevision": "931a1285-083b-400a-b4e0-075fb0715d34",
   "pendingChanges": false,
   "files": {
     "assets/bg_board.png": {
@@ -21,8 +21,8 @@
       "content": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/53/53dbce1e19aa713cbb12ee0bc4d206143b45ab15e6ffbfcaa8f69572d4d24d50"
     },
     "index.html": {
-      "hash": "75b62821f0a9a2d73d1e530a8b5a04a2723b7f527a86baa0b5d2c71a028b7906",
-      "content": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/75/75b62821f0a9a2d73d1e530a8b5a04a2723b7f527a86baa0b5d2c71a028b7906"
+      "hash": "ce0ee566f1741b3a1122f351a555360ebf6c376d2816e2f40ec8aba37299517e",
+      "content": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/ce/ce0ee566f1741b3a1122f351a555360ebf6c376d2816e2f40ec8aba37299517e"
     },
     "meta.json": {
       "hash": "e746a3f513dcda694bc401801e86a35404770c8c4dc5c438933472317785e12e",
@@ -33,7 +33,23 @@
       "content": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/19/1916dd62eef8f95ea2fd9f98f532d14334fd5a488bb8b7f924bf3963fbaf665c"
     }
   },
-  "revisions": {},
+  "revisions": {
+    "931a1285-083b-400a-b4e0-075fb0715d34": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1794918309203,
+      "endedAt": 1794918309204,
+      "files": {
+        "index.html": {
+          "before": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/75/75b62821f0a9a2d73d1e530a8b5a04a2723b7f527a86baa0b5d2c71a028b7906",
+          "after": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/ce/ce0ee566f1741b3a1122f351a555360ebf6c376d2816e2f40ec8aba37299517e"
+        }
+      }
+    }
+  },
   "checks": {
     "latest": null,
     "revisions": {},
@@ -46,13 +62,15 @@
   },
   "renders": {
     "latest": {
-      "id": "448abe3b-50b7-40f2-8343-ca2f23d6edce",
-      "completedAt": 1794918144095,
-      "output": "/Users/air/Desktop/ YouTube/hf/renders/hf_2026-11-17_13-21-02.mp4",
+      "id": "5880a49f-33c6-46e4-b83c-79326c2ab0b6",
+      "completedAt": 1794918387852,
+      "output": "/Users/air/Desktop/ YouTube/hf/renders/hf_2026-11-17_13-25-07.mp4",
       "status": "completed",
-      "revision": null
+      "revision": "931a1285-083b-400a-b4e0-075fb0715d34"
     },
-    "retainedRevisions": []
+    "retainedRevisions": [
+      "931a1285-083b-400a-b4e0-075fb0715d34"
+    ]
   },
   "pendingArtifactCleanup": []
 }
