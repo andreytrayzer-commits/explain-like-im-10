@@ -24,39 +24,53 @@ def esc(s):
 
 # ---------------------------------------------------------------- figures
 
-def figure(x, y, scale=1.0, back=True, coat="coat", lit_from=1, ident=""):
-    """One of the cast. `back` is the over-the-shoulder silhouette; otherwise
-    the face is visible. `lit_from` is +1 when the light is to the right."""
+def figure(x, y, scale=1.0, back=True, coat="coat", lit_from=1, ident="", rig=""):
+    """One of the cast.
+
+    Deliberately built from a torso blob and a head, with no drawn arms: the
+    silhouette stays clean and the life comes from motion - the body breathes,
+    the head tilts, the eyes blink, the mouth works. `back` is the
+    over-the-shoulder view; `lit_from` is +1 when the light is to the right.
+    """
     c, c2 = PAL[coat], PAL[coat + "2"]
-    rim = f'<path d="M{40*lit_from} 20 q{12*lit_from} -300 {96*lit_from} -372 q{58*lit_from} -50 {150*lit_from} -22 q{52*lit_from} 84 {40*lit_from} 394 z" fill="#ffb355" opacity=".22"/>'
-    head_rim = (f'<path d="M0 -692 a136 136 0 0 1 0 272 q{58*lit_from} -70 {58*lit_from} -136 '
-                f'q0 -66 {-58*lit_from if False else 58*lit_from} -136 z" fill="#ffb355" opacity=".26"/>')
+    L = lit_from
+    rim = (f'<path d="M{40*L} 20 q{12*L} -300 {96*L} -372 q{58*L} -50 {150*L} -22 '
+           f'q{52*L} 84 {40*L} 394 z" fill="#ffb355" opacity=".20"/>')
+    head_rim = (f'<path d="M0 -692 a136 136 0 0 1 0 272 q{58*L} -70 {58*L} -136 '
+                f'q0 -66 {-58*L} -136 z" fill="#ffb355" opacity=".22"/>')
+    skin = "#223240" if back else "#eacaa6"
+    # the hat covers the crown, so the face has to live below its brim
     face = "" if back else f'''
-      <circle cx="{-46}" cy="-566" r="15" fill="{PAL['dark']}"/>
-      <circle cx="{46}" cy="-566" r="15" fill="{PAL['dark']}"/>
-      <path d="M-34 -498 q34 26 68 0" stroke="{PAL['dark']}" stroke-width="11"
-            fill="none" stroke-linecap="round"/>'''
-    skin = "#223240" if back else "#e8c6a2"
+        <ellipse class="f-eye" cx="-48" cy="-516" rx="17" ry="17" fill="{PAL['dark']}"/>
+        <ellipse class="f-eye" cx="48" cy="-516" rx="17" ry="17" fill="{PAL['dark']}"/>
+        <ellipse class="f-mouth" cx="0" cy="-452" rx="30" ry="21" fill="{PAL['dark']}"/>'''
     tag = "" if not ident else f'''
-      <g transform="translate(0 -760)">
-        <rect x="-108" y="-34" width="216" height="62" rx="14" fill="#13202a" opacity=".92"/>
-        <rect x="-108" y="-34" width="216" height="62" rx="14" fill="none"
+      <g class="f-tag" transform="translate(0 -842)">
+        <rect x="-116" y="-36" width="232" height="66" rx="15" fill="#13202a" opacity=".92"/>
+        <rect x="-116" y="-36" width="232" height="66" rx="15" fill="none"
               stroke="{PAL['accent']}" stroke-width="3"/>
-        <text x="0" y="10" text-anchor="middle" font-family="Archivo Black"
-              font-size="34" fill="{PAL['accent']}">{esc(ident.upper())}</text>
+        <text x="0" y="12" text-anchor="middle" font-family="Archivo Black"
+              font-size="36" fill="{PAL['accent']}">{esc(ident.upper())}</text>
       </g>'''
+    cls = f"fig {rig}" if rig else "fig"
     return f'''<g transform="translate({x} {y}) scale({scale})">
-      <path d="M-300 20 q-14 -300 44 -392 q58 -92 256 -92 q198 0 256 92 q58 92 44 392 z" fill="{c2}"/>
-      <path d="M-262 20 q-12 -282 40 -366 q52 -80 222 -80 q170 0 222 80 q52 84 40 366 z" fill="{c}"/>
-      {rim}
-      <path d="M-30 -430 h60 v96 h-60 z" fill="{PAL['dark']}" opacity=".8"/>
-      <circle cx="0" cy="-556" r="136" fill="{skin}"/>
-      {head_rim}
-      <path d="M-136 -556 a136 136 0 0 1 272 0 z" fill="#17232d"/>
-      <rect x="-152" y="-566" width="304" height="26" rx="13" fill="#17232d"/>
-      {face}
-      <rect x="-96" y="-404" width="192" height="34" rx="16" fill="{PAL['red']}"/>
+     <g class="{cls}">
+      <g class="f-body">
+        <path d="M-300 20 q-14 -300 44 -392 q58 -92 256 -92 q198 0 256 92 q58 92 44 392 z" fill="{c2}"/>
+        <path d="M-262 20 q-12 -282 40 -366 q52 -80 222 -80 q170 0 222 80 q52 84 40 366 z" fill="{c}"/>
+        {rim}
+        <rect x="-96" y="-404" width="192" height="34" rx="16" fill="{PAL['red']}"/>
+      </g>
+      <g class="f-head" style="transform-box:fill-box;transform-origin:50% 92%">
+        <path d="M-30 -430 h60 v70 h-60 z" fill="{PAL['dark']}" opacity=".75"/>
+        <circle cx="0" cy="-556" r="136" fill="{skin}"/>
+        {head_rim}
+        <path d="M-138 -560 a138 138 0 0 1 276 0 z" fill="#17232d"/>
+        <rect x="-154" y="-572" width="308" height="26" rx="13" fill="#17232d"/>
+        {face}
+      </g>
       {tag}
+     </g>
     </g>'''
 
 
@@ -136,12 +150,18 @@ def sc_duo(sp, i):
 def sc_tally(sp, i):
     """A row of worn-out pairs and a money counter that climbs."""
     n = int(sp.get("count", 10))
+    kind = sp.get("item", "boot")
     cols, cell = 5, 150
     items = []
     for k in range(n):
         cx = 540 - (cols - 1) * cell / 2 + (k % cols) * cell
         cy = 820 + (k // cols) * 260
-        items.append(f'<g class="tallyItem" opacity="0">{boot(cx - 46, cy, .52, worn=True)}</g>')
+        if kind == "boot":
+            art = boot(cx - 46, cy, .52, worn=True)
+        else:
+            art = (f'<g transform="translate({cx} {cy + 60}) scale(.52)">'
+                   f'{prop_art(kind)}</g>')
+        items.append(f'<g class="tallyItem" opacity="0">{art}</g>')
     return f'''
   <svg class="plane far" viewBox="0 0 {W} {H}">
     <rect width="{W}" height="{H}" fill="#273648"/>
@@ -156,6 +176,55 @@ def sc_tally(sp, i):
           letter-spacing="6">{esc(sp.get('label','TOTAL SPENT'))}</text>
   </svg>
   <svg class="plane near" viewBox="0 0 {W} {H}"></svg>'''
+
+
+def prop_art(kind):
+    """The drawing alone, with no wrapper."""
+    return {
+      "tiger": f'''<g>
+        <ellipse cx="0" cy="0" rx="92" ry="80" fill="#e8933a"/>
+        <path d="M-92 -30 l-26 -58 l58 18 z M92 -30 l26 -58 l-58 18 z" fill="#e8933a"/>
+        <g fill="#2a2018"><rect x="-54" y="-56" width="15" height="38" rx="7"/>
+          <rect x="-20" y="-66" width="15" height="42" rx="7"/>
+          <rect x="14" y="-66" width="15" height="42" rx="7"/>
+          <rect x="44" y="-56" width="15" height="38" rx="7"/></g>
+        <ellipse cx="0" cy="22" rx="52" ry="40" fill="#fbe6c8"/>
+        <circle cx="-34" cy="-8" r="13" fill="#2a2018"/>
+        <circle cx="34" cy="-8" r="13" fill="#2a2018"/>
+        <path d="M0 16 l-16 14 h32 z" fill="#2a2018"/>
+      </g>''',
+      "bag": f'''<g>
+        <path d="M-74 -30 q74 -36 148 0 q26 94 -74 116 q-100 -22 -74 -116 z" fill="#4d6b4f"/>
+        <rect x="-26" y="-52" width="52" height="26" rx="10" fill="#3b5540"/>
+        <text x="0" y="52" text-anchor="middle" font-family="Archivo Black"
+              font-size="56" fill="#dff0d8">$</text>
+      </g>''',
+      "car": f'''<g>
+        <path d="M-118 20 q8 -56 34 -58 h168 q26 2 34 58 z" fill="#c0443a"/>
+        <path d="M-66 -40 q16 -34 66 -34 q50 0 66 34 z" fill="#8fb6cf"/>
+        <circle cx="-66" cy="26" r="26" fill="#23303d"/>
+        <circle cx="66" cy="26" r="26" fill="#23303d"/>
+      </g>''',
+      "house": f'''<g>
+        <path d="M-104 -10 l104 -78 l104 78 z" fill="#b4543f"/>
+        <rect x="-78" y="-10" width="156" height="104" fill="#e3d7c2"/>
+        <rect x="-20" y="34" width="40" height="60" fill="#6b5842"/>
+      </g>''',
+      "ring": f'''<g>
+        <circle cx="0" cy="22" r="56" fill="none" stroke="#e8c45a" stroke-width="20"/>
+        <path d="M0 -62 l30 34 l-30 34 l-30 -34 z" fill="#8fd8ef"/>
+      </g>''',
+    }.get(kind, "")
+
+
+def prop(kind, x, y, s=1.0):
+    """A prop that can be popped into frame.
+
+    GSAP overwrites `transform` on whatever it animates, so the layout
+    transform lives on an outer group it never touches.
+    """
+    return (f'<g transform="translate({x} {y}) scale({s})">'
+            f'<g class="prop" opacity="0">{prop_art(kind)}</g></g>')
 
 
 def price_tag(x, y, text):
@@ -196,7 +265,48 @@ def sc_card(sp, i):
   <svg class="plane near" viewBox="0 0 {W} {H}"></svg>'''
 
 
-SCENES = {"street": sc_street, "duo": sc_duo, "tally": sc_tally, "card": sc_card}
+def sc_stage(sp, i):
+    """One of the cast centre frame while things pile in around them."""
+    ring = sp.get("props", [])
+    # a prop is ~400px wide at this scale, so keep the anchors off the edges
+    spots = [(300, 520), (780, 520), (300, 900), (780, 900), (540, 318)]
+    items = "".join(prop(k, *spots[j % len(spots)], sp.get("prop_scale", 1.15))
+                    for j, k in enumerate(ring))
+    note = ""
+    if sp.get("note"):
+        txt = sp["note"]
+        # Archivo Black runs about 0.62em per character; size the plate to the
+        # text and shrink the type if it still will not fit the frame.
+        fs = 56
+        while fs > 30 and len(txt) * fs * .62 + 96 > 900:
+            fs -= 2
+        half = (len(txt) * fs * .62) / 2 + 48
+        note = f'''
+    <g transform="translate(540 1318)"><g class="note" opacity="0">
+      <rect x="{-half:.0f}" y="-56" width="{2*half:.0f}" height="112" rx="18"
+            fill="#13202a" opacity=".92"/>
+      <rect x="{-half:.0f}" y="-56" width="{2*half:.0f}" height="112" rx="18"
+            fill="none" stroke="{PAL['accent']}" stroke-width="3"/>
+      <text x="0" y="{fs*.34:.0f}" text-anchor="middle" font-family="Archivo Black"
+            font-size="{fs}" fill="{PAL['accent']}">{esc(txt)}</text>
+    </g></g>'''
+    return f'''
+  <svg class="plane far" viewBox="0 0 {W} {H}">
+    <rect width="{W}" height="{H}" fill="#273648"/>
+    <ellipse cx="540" cy="880" rx="720" ry="620" fill="url(#spill)" opacity=".5"/>
+    <rect x="0" y="1300" width="{W}" height="620" fill="#2f4255"/>
+  </svg>
+  <svg class="plane mid" viewBox="0 0 {W} {H}">
+    {items}
+    {figure(540, 1460, .62, back=False, coat=sp.get("coat", "coat"),
+            ident=sp.get("name", ""), rig="hero")}
+    {note}
+  </svg>
+  <svg class="plane near" viewBox="0 0 {W} {H}"></svg>'''
+
+
+SCENES = {"street": sc_street, "duo": sc_duo, "tally": sc_tally,
+          "card": sc_card, "stage": sc_stage}
 
 
 # ---------------------------------------------------------------- build
@@ -232,6 +342,13 @@ def build(episode, timeline, out_path=None):
                 js.append(f'  tl.fromTo("#s{si} {cls}",{{opacity:0,y:40}},{{opacity:1,y:0,'
                           f'duration:.45,ease:"back.out(1.4)",immediateRender:false}},'
                           f'{t0+.2+k*.35:.2f});')
+        if spec.get("type") == "stage":
+            js.append(f'  pops("#s{si} .prop", {t0+.35:.2f});')
+            if spec.get("note"):
+                js.append(f'  tl.fromTo("#s{si} .note",{{opacity:0,y:30,scale:.9}},'
+                          f'{{opacity:1,y:0,scale:1,duration:.45,ease:"back.out(1.8)",'
+                          f'immediateRender:false}},{t0+1.1:.2f});')
+        js.append(f'  alive("#s{si}", {t0:.2f}, {dur:.2f});')
         if spec.get("type") == "tally":
             cnt = int(spec.get("count", 10))
             per = max(.12, min(.5, (dur - 1.2) / max(1, cnt)))
@@ -328,6 +445,38 @@ def build(episode, timeline, out_path=None):
         tl.set(sel, {{visibility:"hidden"}}, at+hold);
       }}
 
+      // A still drawing is not a cartoon: everyone breathes, blinks and gestures.
+      function alive(scope, t0, dur){{
+        const n = Math.ceil(dur / 1.3);
+        tl.fromTo(scope+" .f-body, "+scope+" .f-head",{{y:0}},
+          {{y:-13,duration:1.3,ease:"sine.inOut",yoyo:true,repeat:n,
+            immediateRender:false}}, t0);
+        tl.fromTo(scope+" .f-body",{{rotation:-1.1,transformOrigin:"50% 100%"}},
+          {{rotation:1.1,duration:2.2,ease:"sine.inOut",yoyo:true,
+            repeat:Math.ceil(dur/2.2),immediateRender:false}}, t0+.2);
+        tl.fromTo(scope+" .f-head",{{rotation:-3.2}},
+          {{rotation:3.2,duration:2.4,ease:"sine.inOut",yoyo:true,
+            repeat:Math.ceil(dur/2.4),immediateRender:false}}, t0);
+        // geometry, not transform: a transform on these gets a compensating
+        // translate from GSAP and the feature slides off the face
+        for(let b=1.2;b<dur;b+=3.1)
+          tl.to(scope+" .f-eye",{{attr:{{ry:2}},duration:.07,yoyo:true,repeat:1}}, t0+b);
+        for(let m=.5;m<dur;m+=.42)
+          tl.to(scope+" .f-mouth",{{attr:{{ry:8}},duration:.12,yoyo:true,repeat:1}}, t0+m);
+      }}
+
+      // props land with a squash, then float
+      function pops(sel, at){{
+        document.querySelectorAll(sel).forEach((el,i)=>{{
+          const t = at + i*.42;
+          tl.fromTo(el,{{opacity:0,scale:.3,rotation:-14}},
+            {{opacity:1,scale:1,rotation:0,duration:.34,ease:"back.out(2.6)",
+              transformOrigin:"50% 50%",immediateRender:false}}, t);
+          tl.fromTo(el,{{y:0}},{{y:-18,duration:1.6,ease:"sine.inOut",yoyo:true,
+            repeat:20,immediateRender:false}}, t+.34);
+        }});
+      }}
+
       function countUp(sel, at, dur, to, prefix){{
         const el = document.querySelector(sel);
         if(!el) return;
@@ -338,6 +487,9 @@ def build(episode, timeline, out_path=None):
 
 {chr(10).join(js)}
 
+      // HyperFrames provides this at render time; defining it here too
+      // lets the composition be opened straight in a browser to debug.
+      window.__timelines = window.__timelines || {{}};
       window.__timelines["main"] = tl;
       tl.seek(0);
     </script>

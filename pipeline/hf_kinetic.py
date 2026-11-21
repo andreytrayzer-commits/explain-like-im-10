@@ -161,6 +161,9 @@ def build(episode, timeline, out_path=None):
 
 {chr(10).join(js)}
 
+      // HyperFrames provides this at render time; defining it here too
+      // lets the composition be opened straight in a browser to debug.
+      window.__timelines = window.__timelines || {{}};
       window.__timelines["main"] = tl;
       tl.seek(0);
     </script>

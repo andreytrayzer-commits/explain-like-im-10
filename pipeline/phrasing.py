@@ -17,6 +17,8 @@ ONES = {"zero": 0, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 
 TENS = {"twenty": 20, "thirty": 30, "forty": 40, "fifty": 50, "sixty": 60,
         "seventy": 70, "eighty": 80, "ninety": 90}
 TAIL = {"percent": "%", "dollars": "$", "dollar": "$", "pounds": "£", "pound": "£"}
+# "a hundred and forty thousand" must not be read as the figure 40
+SCALE = {"hundred", "thousand", "million", "billion", "trillion"}
 
 
 def clean(w):
@@ -66,6 +68,10 @@ def to_tokens(words):
                     val += nxt; j += 1
         elif low in ONES:
             val, j = ONES[low], i + 1
+        nxt_word = clean(ws[j]["word"]).lower() if j < len(ws) else ""
+        prv_word = clean(ws[i - 1]["word"]).lower() if i else ""
+        if val is not None and (nxt_word in SCALE or prv_word in SCALE):
+            val = None            # part of a larger spoken amount - leave it in words
         if val is not None:
             text, unit = str(val), None
             if j < len(ws):

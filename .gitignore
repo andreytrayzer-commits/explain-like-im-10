@@ -10,3 +10,5 @@ styles/
 ci-logs/render.log
 hf/preview/
 shot.mjs
+diag.mjs
+shotseek.mjs

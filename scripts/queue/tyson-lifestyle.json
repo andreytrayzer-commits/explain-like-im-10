@@ -1,0 +1,101 @@
+{
+  "slug": "tyson-lifestyle",
+  "style": "story",
+  "voice": "en_m",
+  "rate": "+4%",
+  "title": "Mike Tyson earned $400 million and went broke",
+  "description": "Two tigers, a trainer on a salary, and a tax bill. How a fortune that big disappears \u2014 and the money rule underneath it.\n\nNew video every day.",
+  "tags": [
+    "mike tyson",
+    "lifestyle inflation",
+    "bankruptcy",
+    "celebrity money",
+    "financial literacy"
+  ],
+  "scenes": [
+    {
+      "scene": {
+        "type": "stage",
+        "name": "tyson",
+        "props": [
+          "car",
+          "house",
+          "ring"
+        ],
+        "push": 1.1
+      },
+      "say": "Mike Tyson earned close to four hundred million dollars in the ring. In two thousand three, he filed for bankruptcy."
+    },
+    {
+      "scene": {
+        "type": "stage",
+        "name": "tyson",
+        "props": [
+          "tiger",
+          "tiger"
+        ],
+        "note": "$140,000",
+        "push": 1.08
+      },
+      "say": "He kept two white Bengal tigers. Reported at a hundred and forty thousand dollars."
+    },
+    {
+      "scene": {
+        "type": "stage",
+        "name": "tyson",
+        "props": [
+          "tiger",
+          "bag"
+        ],
+        "note": "$125,000 A YEAR",
+        "push": 1.08
+      },
+      "say": "Their trainer was a hundred and twenty five thousand a year. A salary, for the tigers."
+    },
+    {
+      "scene": {
+        "type": "tally",
+        "count": 8,
+        "to": 400,
+        "prefix": "$",
+        "label": "MILLIONS EARNED",
+        "push": 1.06,
+        "item": "bag"
+      },
+      "say": "But the tigers are not the lesson. Every win bought a bigger life, and a bigger life sends its bill every single month."
+    },
+    {
+      "scene": {
+        "type": "stage",
+        "name": "tyson",
+        "props": [
+          "bag"
+        ],
+        "note": "$13.4M TO THE TAX OFFICE",
+        "push": 1.1
+      },
+      "say": "When the fights slowed down, the bills did not. He owed the tax office more than thirteen million."
+    },
+    {
+      "scene": {
+        "type": "duo",
+        "push": 1.08,
+        "left": {
+          "name": "income"
+        },
+        "right": {
+          "name": "lifestyle"
+        }
+      },
+      "say": "Income is a number that can stop. Lifestyle is a number that keeps going."
+    },
+    {
+      "scene": {
+        "type": "card",
+        "years": 10,
+        "push": 1.12
+      },
+      "say": "Most people do not go broke because they earn too little. They go broke in the gap between those two numbers."
+    }
+  ]
+}
