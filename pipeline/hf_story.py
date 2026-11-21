@@ -382,6 +382,18 @@ def sc_stage(sp, i):
 SCENES = {"street": sc_street, "duo": sc_duo, "tally": sc_tally,
           "card": sc_card, "stage": sc_stage}
 
+# (scale, x, y) at the start and end of a scene. Scale never drops below 1.12
+# so a pan has somewhere to pan into.
+CAMS = {
+    "push":    ((1.12, 0, 0),    (1.30, 0, -22)),
+    "pull":    ((1.32, 0, -18),  (1.13, 0, 0)),
+    "panL":    ((1.18, 52, -10), (1.18, -52, 6)),
+    "panR":    ((1.18, -52, 6),  (1.18, 52, -10)),
+    "riseUp":  ((1.20, 0, 58),   (1.20, 0, -46)),
+    "creepIn": ((1.14, -24, 12), (1.26, 18, -16)),
+}
+CAM_CYCLE = ["push", "panR", "riseUp", "pull", "panL", "creepIn"]
+
 
 # ---------------------------------------------------------------- build
 
@@ -402,10 +414,12 @@ def build(episode, timeline, out_path=None):
         js.append(f'  // scene {si}')
         js.append(f'  tl.set("#s{si}",{{autoAlpha:1}},{t0:.2f})'
                   f'.set("#s{si}",{{autoAlpha:0}},{t0+dur:.2f});')
-        # a slow push keeps a still picture alive
-        js.append(f'  tl.fromTo("#w{si}",{{scale:1.0}},'
-                  f'{{scale:{spec.get("push",1.10)},duration:{dur:.2f},ease:"none",'
-                  f'immediateRender:false}},{t0:.2f});')
+        # Moves alternate so two neighbouring scenes never repeat one; the
+        # base scale is above 1 so a pan never exposes the edge of the world.
+        move = spec.get("cam") or CAM_CYCLE[si % len(CAM_CYCLE)]
+        a, b_ = CAMS.get(move, CAMS["push"])
+        js.append(f'  cam("#w{si}", {t0:.2f}, {dur:.2f}, '
+                  f'{{s:{a[0]},x:{a[1]},y:{a[2]}}}, {{s:{b_[0]},x:{b_[1]},y:{b_[2]}}});')
         if spec.get("type") == "street":
             js.append(f'  tl.fromTo("#s{si} .snow",{{y:-40}},{{y:120,duration:{dur:.2f},'
                       f'ease:"none",immediateRender:false}},{t0:.2f});')
@@ -422,7 +436,9 @@ def build(episode, timeline, out_path=None):
                 js.append(f'  tl.fromTo("#s{si} .note",{{opacity:0,y:30,scale:.9}},'
                           f'{{opacity:1,y:0,scale:1,duration:.45,ease:"back.out(1.8)",'
                           f'immediateRender:false}},{t0+1.1:.2f});')
-        js.append(f'  alive("#s{si}", {t0:.2f}, {dur:.2f});')
+        wt = json.dumps([[round(w["start"], 2), round(w["end"], 2)]
+                         for w in seg["words"]])
+        js.append(f'  alive("#s{si}", {t0:.2f}, {dur:.2f}, {wt});')
         if spec.get("type") == "tally":
             cnt = int(spec.get("count", 10))
             per = max(.12, min(.5, (dur - 1.2) / max(1, cnt)))
@@ -466,8 +482,13 @@ def build(episode, timeline, out_path=None):
       .scene{{position:absolute;inset:0;visibility:hidden;opacity:0}}
       .world{{position:absolute;inset:0;transform-origin:50% 54%}}
       .plane{{position:absolute;inset:0}}
-      .plane.far{{filter:blur(9px) saturate(.75) brightness(1.5);opacity:.95}}
-      .plane.near{{filter:blur(1.5px)}}
+      /* Aerial perspective, not a blur: distant things lose contrast and go
+         cooler. A blur filter cost the whole frame its sharpness - measured at
+         280 against the reference's 676 in the comparison that prompted this. */
+      .plane.far{{filter:saturate(.72) brightness(1.18) contrast(.86);opacity:.92}}
+      .plane.far::after{{content:"";position:absolute;inset:0;
+        background:#4a6480;opacity:.22;mix-blend-mode:screen}}
+      .plane.near{{filter:saturate(1.06) contrast(1.04)}}
       #hdr{{position:absolute;top:58px;left:0;right:0;text-align:center;z-index:20;
         font-weight:800;font-size:26px;letter-spacing:.26em;color:#9fb0c0;
         text-transform:uppercase}}
@@ -480,8 +501,8 @@ def build(episode, timeline, out_path=None):
         text-shadow:0 6px 28px rgba(0,0,0,.85)}}
       .cap b{{color:{PAL['accent']};font-weight:inherit}}
       #vig{{position:absolute;inset:0;z-index:15;pointer-events:none;
-        background:radial-gradient(ellipse at 50% 44%, rgba(0,0,0,0) 46%, rgba(0,0,0,.42) 100%)}}
-      #grain{{position:absolute;inset:0;z-index:16;pointer-events:none;opacity:.13;
+        background:radial-gradient(ellipse at 50% 44%, rgba(0,0,0,0) 52%, rgba(10,18,28,.30) 100%)}}
+      #grain{{position:absolute;inset:0;z-index:16;pointer-events:none;opacity:.07;
         mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>")}}
     </style>
   </head>
@@ -519,27 +540,48 @@ def build(episode, timeline, out_path=None):
         tl.set(sel, {{visibility:"hidden"}}, at+hold);
       }}
 
-      // A still drawing is not a cartoon: everyone breathes, blinks and gestures.
-      function alive(scope, t0, dur){{
-        const n = Math.ceil(dur / 1.3);
-        tl.fromTo(scope+" .f-body, "+scope+" .f-head",{{y:0}},
-          {{y:-13,duration:1.3,ease:"sine.inOut",yoyo:true,repeat:n,
-            immediateRender:false}}, t0);
-        tl.fromTo(scope+" .f-armR",{{rotation:-5}},
-          {{rotation:14,duration:1.9,ease:"sine.inOut",yoyo:true,
-            repeat:Math.ceil(dur/1.9),immediateRender:false}}, t0+.2);
-        tl.fromTo(scope+" .f-armL",{{rotation:5}},
-          {{rotation:-12,duration:2.3,ease:"sine.inOut",yoyo:true,
-            repeat:Math.ceil(dur/2.3),immediateRender:false}}, t0);
-        tl.fromTo(scope+" .f-head",{{rotation:-3.2}},
-          {{rotation:3.2,duration:2.4,ease:"sine.inOut",yoyo:true,
-            repeat:Math.ceil(dur/2.4),immediateRender:false}}, t0);
-        // geometry, not transform: a transform on these gets a compensating
-        // translate from GSAP and the feature slides off the face
-        for(let b=1.2;b<dur;b+=3.1)
-          tl.to(scope+" .f-pupil",{{attr:{{r:1.5}},duration:.07,yoyo:true,repeat:1}}, t0+b);
-        for(let m=.5;m<dur;m+=.42)
-          tl.to(scope+" .f-mouth",{{attr:{{ry:5}},duration:.12,yoyo:true,repeat:1}}, t0+m);
+      // Human idle is mostly stillness: the chest breathes, and everything
+      // else happens in discrete beats. Continuous sine on every joint is
+      // what made the cast look like it was floating in water.
+      function alive(scope, t0, dur, words){{
+        // breathing: the torso only, and barely
+        tl.fromTo(scope+" .f-body", {{scaleY:1, transformOrigin:"50% 100%"}},
+          {{scaleY:1.018, duration:1.7, ease:"sine.inOut", yoyo:true,
+           repeat:Math.ceil(dur/1.7), immediateRender:false}}, t0);
+
+        // the head settles to a new angle now and then, then holds
+        const angles = [0, -2.6, 1.8, -1.2, 2.4];
+        let i = 0;
+        for(let t=0.9; t<dur-0.4; t+=1.9+((i*0.37)%0.8)){{
+          tl.to(scope+" .f-head", {{rotation:angles[i%angles.length],
+            duration:.34, ease:"power2.out"}}, t0+t);
+          i++;
+        }}
+
+        // blinks, irregular
+        let bt = 1.1;
+        while(bt < dur){{
+          tl.to(scope+" .f-pupil", {{attr:{{r:1.5}}, duration:.06, yoyo:true, repeat:1}}, t0+bt);
+          bt += 2.4 + (bt % 1.7);
+        }}
+
+        // one or two gestures per scene, not a permanent swing
+        const gest = [[dur*0.28, -24], [dur*0.66, 16]];
+        gest.forEach(function(g, k){{
+          var t = g[0], ang = g[1];
+          if(t > dur-0.8) return;
+          var arm = scope + (k%2 ? " .f-armL" : " .f-armR");
+          tl.to(arm, {{rotation:ang, duration:.26, ease:"back.out(2)"}}, t0+t);
+          tl.to(arm, {{rotation:0, duration:.42, ease:"power2.inOut"}}, t0+t+.75);
+        }});
+
+        // the mouth works on the words actually being spoken
+        (words||[]).forEach(function(w){{
+          var ws = w[0], we = w[1];
+          var d = Math.max(.07, we-ws);
+          tl.to(scope+" .f-mouth", {{attr:{{ry:11}}, duration:d*.45, ease:"sine.out"}}, ws);
+          tl.to(scope+" .f-mouth", {{attr:{{ry:4}},  duration:d*.55, ease:"sine.in"}},  ws+d*.45);
+        }});
       }}
 
       // props land with a squash, then float
@@ -552,6 +594,12 @@ def build(episode, timeline, out_path=None):
           tl.fromTo(el,{{y:0}},{{y:-18,duration:1.6,ease:"sine.inOut",yoyo:true,
             repeat:20,immediateRender:false}}, t+.34);
         }});
+      }}
+
+      function cam(sel, at, dur, a, b){{
+        tl.fromTo(sel, {{scale:a.s, x:a.x, y:a.y}},
+          {{scale:b.s, x:b.x, y:b.y, duration:dur, ease:"sine.inOut",
+            immediateRender:false}}, at);
       }}
 
       function countUp(sel, at, dur, to, prefix){{
