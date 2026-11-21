@@ -13,7 +13,7 @@ nothing is burned in underneath. Four things give the sheet its rhythm:
   a scene is the one the voice leans on - unless the episode names one
 * the last card is set apart: rules above and below, red, and held
 """
-import html, os, re
+import html, os
 from functools import lru_cache
 from PIL import ImageFont
 from config import ROOT, W, H
@@ -50,158 +50,8 @@ def _font(file):
 def advance(word, file):
     return _font(file).getlength(word)
 
-STOP = {"a", "an", "the", "of", "to", "is", "it", "in", "on", "and", "or", "so",
-        "you", "your", "that", "this", "but", "for", "as", "at", "was", "are",
-        "just", "than", "what", "when", "does", "did", "do", "be", "its"}
-
-ONES = {"zero": 0, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6,
-        "seven": 7, "eight": 8, "nine": 9, "ten": 10, "eleven": 11, "twelve": 12,
-        "thirteen": 13, "fourteen": 14, "fifteen": 15, "sixteen": 16,
-        "seventeen": 17, "eighteen": 18, "nineteen": 19}
-TENS = {"twenty": 20, "thirty": 30, "forty": 40, "fifty": 50, "sixty": 60,
-        "seventy": 70, "eighty": 80, "ninety": 90}
-TAIL = {"percent": "%", "dollars": "$", "dollar": "$"}
-
-GRAIN = ("data:image/svg+xml;utf8,"
-         "<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'>"
-         "<filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' "
-         "numOctaves='4' stitchTiles='stitch'/></filter>"
-         "<rect width='220' height='220' filter='url(%23n)' opacity='0.5'/></svg>")
-
-# A pause should read as a beat, not as dead air: an empty sheet costs
-# retention on a vertical short. The card holds almost to the next hit and
-# clears for a brief, proportional gap.
-MIN_HOLD = .26
-LINE_H = .86                     # must match .card line-height in the CSS
-
-# A broadside does not set every block in the middle of the sheet. Anchors are
-# walked in a fixed order so the position changes from card to card without
-# ever being random; figures, the emphasis card and the finale stay centred.
-ANCHORS = [(.42, "center"), (.60, "left"), (.36, "right"), (.52, "center"),
-           (.64, "right"), (.40, "left"), (.56, "center"), (.34, "left")]
-MAX_CLEAR = .34
-
-
-def esc(s):
-    return html.escape(str(s), quote=True)
-
-
-def clean(w):
-    return w.strip(" .,!?;:—–\"'").strip()
-
-
-def mark_breaks(words, say):
-    """Flag the spoken words that end a clause, using the script's punctuation.
-
-    edge-tts hands back bare words, so the only place the phrasing survives is
-    the source text; without this, chunks straddle sentence ends.
-    """
-    src = re.findall(r"[\w'%$-]+[.,!?;:]*", say or "")
-    out = [dict(w, brk=False) for w in words]
-    i = 0
-    for tok in src:
-        bare = re.sub(r"[^\w'%$-]", "", tok).lower()
-        if not bare:
-            continue
-        j = i
-        while j < len(out) and clean(out[j]["word"]).lower() != bare:
-            j += 1
-        if j >= len(out):
-            continue
-        if tok[-1] in ".,!?;:":
-            out[j]["brk"] = True
-        i = j + 1
-    return out
-
-
-def to_tokens(words):
-    """Collapse spoken number words into figures, keeping their timings."""
-    out, i = [], 0
-    ws = [w for w in words if clean(w["word"])]
-    while i < len(ws):
-        raw = clean(ws[i]["word"])
-        low = raw.lower()
-        val, j = None, i
-        if low in TENS:
-            val, j = TENS[low], i + 1
-            if j < len(ws) and clean(ws[j]["word"]).lower() in ONES:
-                nxt = ONES[clean(ws[j]["word"]).lower()]
-                if 0 < nxt < 10:
-                    val += nxt; j += 1
-        elif low in ONES:
-            val, j = ONES[low], i + 1
-        if val is not None:
-            text = str(val)
-            if j < len(ws):
-                suf = TAIL.get(clean(ws[j]["word"]).lower())
-                if suf:
-                    text = (text + "%") if suf == "%" else ("$" + text)
-                    j += 1
-            out.append({"text": text, "start": ws[i]["start"], "end": ws[j - 1]["end"],
-                        "figure": True, "brk": ws[j - 1].get("brk", False)})
-            i = j
-            continue
-        out.append({"text": raw, "start": ws[i]["start"], "end": ws[i]["end"],
-                    "figure": False, "brk": ws[i].get("brk", False)})
-        i += 1
-    return out
-
-
-def chunk(tokens, max_per=3, max_span=1.15):
-    out, cur = [], []
-    for t in tokens:
-        # a figure gets a card of its own: it is the beat
-        if t["figure"]:
-            if cur:
-                out.append(cur); cur = []
-            out.append([t])
-            continue
-        if cur and (len(cur) >= max_per or t["end"] - cur[0]["start"] > max_span):
-            out.append(cur); cur = []
-        cur.append(t)
-        if t.get("brk"):
-            out.append(cur); cur = []
-    if cur:
-        out.append(cur)
-    return absorb_orphans(out)
-
-
-def absorb_orphans(chunks, short=7, cap=4):
-    """Rejoin a lone short word with its own sentence.
-
-    The three-word limit cuts sentence tails loose ("shelter is never" / "free"),
-    which leaves one small word alone on a whole sheet. Merging only happens
-    inside a sentence, so the punctuation breaks still hold.
-    """
-    out = []
-    for ch in chunks:
-        orphan = (len(ch) == 1 and not ch[0]["figure"]
-                  and len(ch[0]["text"]) <= short)
-        if orphan and out:
-            prev = out[-1]
-            if len(prev) < cap and not prev[-1].get("brk"):
-                prev.append(ch[0])
-                continue
-        out.append(ch)
-    # a leading orphan has no previous sentence to join - push it onto the next
-    if len(out) > 1 and len(out[0]) == 1 and not out[0][0]["figure"] \
-            and len(out[0][0]["text"]) <= short and not out[0][0].get("brk") \
-            and len(out[1]) < cap:
-        out[1].insert(0, out[0].pop())
-        out.pop(0)
-    return out
-
-
-def pick_emphasis(tokens):
-    """The word the voice leans on is the one it holds longest."""
-    best, span = None, 0
-    for t in tokens:
-        if t["figure"] or t["text"].lower() in STOP or len(t["text"]) < 4:
-            continue
-        d = t["end"] - t["start"]
-        if d > span:
-            best, span = t["text"].lower(), d
-    return best
+from phrasing import (STOP, clean, mark_breaks, to_tokens, chunk,
+                      absorb_orphans, pick_emphasis)
 
 
 def font_px(word, file, cap=250):

@@ -8,3 +8,5 @@ hf/renders/
 hf/index.html
 styles/
 ci-logs/render.log
+hf/preview/
+shot.mjs

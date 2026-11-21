@@ -1,0 +1,80 @@
+{
+  "slug": "boots-story",
+  "style": "story",
+  "voice": "en_m",
+  "rate": "+4%",
+  "title": "Why cheap things are more expensive",
+  "description": "Two people buy boots. Ten years later the one who spent more has spent less. The boots theory, in forty seconds.",
+  "tags": [
+    "cost per use",
+    "buying quality",
+    "frugality",
+    "spending habits",
+    "financial literacy"
+  ],
+  "scenes": [
+    {
+      "scene": {
+        "type": "street",
+        "price": "50",
+        "push": 1.12
+      },
+      "say": "Two people buy boots. One spends fifty. One spends ten."
+    },
+    {
+      "scene": {
+        "type": "duo",
+        "push": 1.08,
+        "left": {
+          "name": "spent 50"
+        },
+        "right": {
+          "name": "spent 10"
+        }
+      },
+      "say": "Ten years later, the one who spent fifty has spent less."
+    },
+    {
+      "scene": {
+        "type": "tally",
+        "count": 10,
+        "to": 100,
+        "prefix": "\u00a3",
+        "label": "TEN WINTERS",
+        "push": 1.06
+      },
+      "say": "The cheap boots last one winter. So you buy them again. And again. Ten winters, ten pairs, one hundred pounds."
+    },
+    {
+      "scene": {
+        "type": "card",
+        "prop": "boot",
+        "push": 1.14,
+        "price": "\u00a350",
+        "years": 10
+      },
+      "say": "The good boots last ten years. Fifty pounds, once."
+    },
+    {
+      "scene": {
+        "type": "duo",
+        "push": 1.08,
+        "left": {
+          "name": "dry feet"
+        },
+        "right": {
+          "name": "dry feet"
+        }
+      },
+      "say": "So the person who could afford the better boots paid half as much for exactly the same thing."
+    },
+    {
+      "scene": {
+        "type": "card",
+        "push": 1.12,
+        "years": 10
+      },
+      "say": "This is the quiet unfairness of being short of money. The real price of a thing is not what it costs. It is what it costs per year."
+    }
+  ]
+}

@@ -8,7 +8,7 @@ the visual layer differs: a GSAP composition rendered through headless Chrome
 instead of frames composited in Pillow.
 """
 import json, os, shutil, subprocess, sys, tempfile, time
-import hf_build, hf_kinetic, hf_letterpress, make_video, subs, tts
+import hf_build, hf_kinetic, hf_letterpress, hf_story, make_video, subs, tts
 from config import *
 
 FF = ffmpeg_bin()
@@ -40,7 +40,7 @@ def _hf_env():
 
 
 BUILDERS = {"doodle": hf_build, "kinetic": hf_kinetic,
-            "letterpress": hf_letterpress}
+            "letterpress": hf_letterpress, "story": hf_story}
 
 
 def render(episode_path, out_name=None, strict=True, style=None):
@@ -104,7 +104,7 @@ def render(episode_path, out_name=None, strict=True, style=None):
 
     # ---- 3. captions + audio
     out = os.path.join(OUT, f"{name}.mp4")
-    burn = builder not in (hf_kinetic, hf_letterpress)
+    burn = builder not in (hf_kinetic, hf_letterpress, hf_story)
     subprocess.run(
         [FF, "-y", "-hide_banner", "-loglevel", "error", "-i", silent, "-i", audio]
         + (["-vf", f"ass={ass}:fontsdir={os.path.dirname(CAPTION_FONT_FILE)}"] if burn else []) +
