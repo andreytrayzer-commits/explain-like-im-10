@@ -1,0 +1,10 @@
+import puppeteer from 'puppeteer-core';
+const b=await puppeteer.launch({executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',args:['--no-sandbox'],headless:'new'});
+const p=await b.newPage(); await p.setViewport({width:1080,height:1920});
+await p.goto('file://'+encodeURI('/Users/air/Desktop/ YouTube/hf/index.html'),{waitUntil:'networkidle0'});
+await new Promise(r=>setTimeout(r,1500));
+const o=await p.evaluate(()=>{ const tl=window.__timelines.main; tl.seek(11.0);
+  return [...document.querySelectorAll('#s1 .prop')].map(e=>{const r=e.getBoundingClientRect();
+    return {x:Math.round(r.x),y:Math.round(r.y),w:Math.round(r.width),h:Math.round(r.height)};});});
+console.log(JSON.stringify(o));
+await b.close();

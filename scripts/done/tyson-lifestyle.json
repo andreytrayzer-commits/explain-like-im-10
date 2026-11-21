@@ -22,7 +22,8 @@
           "house",
           "ring"
         ],
-        "push": 1.1
+        "push": 1.1,
+        "look": "boxer"
       },
       "say": "Mike Tyson earned close to four hundred million dollars in the ring. In two thousand three, he filed for bankruptcy."
     },
@@ -35,7 +36,8 @@
           "tiger"
         ],
         "note": "$140,000",
-        "push": 1.08
+        "push": 1.08,
+        "look": "boxer"
       },
       "say": "He kept two white Bengal tigers. Reported at a hundred and forty thousand dollars."
     },
@@ -48,7 +50,8 @@
           "bag"
         ],
         "note": "$125,000 A YEAR",
-        "push": 1.08
+        "push": 1.08,
+        "look": "boxer"
       },
       "say": "Their trainer was a hundred and twenty five thousand a year. A salary, for the tigers."
     },
@@ -72,7 +75,8 @@
           "bag"
         ],
         "note": "$13.4M TO THE TAX OFFICE",
-        "push": 1.1
+        "push": 1.1,
+        "look": "boxer"
       },
       "say": "When the fights slowed down, the bills did not. He owed the tax office more than thirteen million."
     },
