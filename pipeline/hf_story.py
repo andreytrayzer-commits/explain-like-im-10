@@ -38,6 +38,10 @@ LINE = "#20262c"
 LOOKS = {
     "boxer": dict(bald=True, skin="#8a5a3b", skin_sh="#6d4530", build=1.22,
                   coat="#2b2f36", coat2="#1f2228", trim="#c9323a"),
+    # dark coat, dark hair: a loose likeness, nothing more
+    "star":  dict(skin="#e3bd97", skin_sh="#c89d77", build=1.0,
+                  coat="#23262c", coat2="#171a1f", trim="#d8d2c6",
+                  hair="#241a14"),
 }
 
 
@@ -58,7 +62,7 @@ def figure(x, y, scale=1.0, back=False, coat="blue", lit_from=1, ident="", rig="
     skin, skin_sh = lk.get("skin", SKIN), lk.get("skin_sh", SKIN_SH)
     bald = lk.get("bald", False)
     build = lk.get("build", 1.0)
-    for k in ("coat", "coat2", "trim"):
+    for k in ("coat", "coat2", "trim", "hair"):
         if k in lk:
             p[k] = lk[k]
     L = lit_from
@@ -267,6 +271,28 @@ def prop_art(kind):
           <path d="M0 21 v10" stroke="#2a2018" stroke-width="5"/>
         </g>
       </g>''',
+      "skull": f'''<g>
+        <path d="M-150 -34 q0 -58 66 -62 q58 -4 92 26 l96 54 q26 16 24 38
+                 q-2 22 -30 26 l-40 6 l-18 40 q-10 20 -32 14 q-20 -6 -18 -28
+                 l2 -22 l-78 6 q-54 2 -62 -40 q-4 -24 -2 -58 z"
+              fill="#E8DFC8" stroke="#2a2420" stroke-width="7" stroke-linejoin="round"/>
+        <ellipse cx="-62" cy="-34" rx="30" ry="26" fill="#2a2420"/>
+        <path d="M-120 20 l10 26 M-84 26 l8 26 M-46 28 l8 26 M-8 26 l8 24"
+              stroke="#2a2420" stroke-width="9" stroke-linecap="round"/>
+        <path d="M60 36 l10 22 M96 40 l8 20" stroke="#2a2420" stroke-width="9"
+              stroke-linecap="round"/>
+        <path d="M18 -70 q40 -16 72 4" stroke="#2a2420" stroke-width="6" fill="none"/>
+      </g>''',
+      "island": f'''<g>
+        <ellipse cx="0" cy="70" rx="150" ry="34" fill="#E3D5A8" stroke="#2a2420" stroke-width="6"/>
+        <path d="M-8 64 q-10 -90 -4 -124" stroke="#6b4b2a" stroke-width="16"
+              fill="none" stroke-linecap="round"/>
+        <g fill="#4e8f5a" stroke="#2a2420" stroke-width="5">
+          <path d="M-12 -62 q-70 -26 -96 10 q54 6 96 10 z"/>
+          <path d="M-12 -62 q70 -26 96 10 q-54 6 -96 10 z"/>
+          <path d="M-12 -62 q-18 -62 24 -78 q10 50 -24 78 z"/>
+        </g>
+      </g>''',
       "bag": f'''<g>
         <path d="M-74 -30 q74 -36 148 0 q26 94 -74 116 q-100 -22 -74 -116 z" fill="#4d6b4f"/>
         <rect x="-26" y="-52" width="52" height="26" rx="10" fill="#3b5540"/>
@@ -342,9 +368,15 @@ def sc_card(sp, i):
 def sc_stage(sp, i):
     """One of the cast centre frame while things pile in around them."""
     ring = sp.get("props", [])
-    # a prop is ~400px wide at this scale, so keep the anchors off the edges
-    spots = [(340, 500), (746, 500), (340, 880), (746, 880), (543, 318)]
-    items = "".join(prop(k, *spots[j % len(spots)], sp.get("prop_scale", .78))
+    # a prop is ~400px wide at this scale, so keep the anchors off the edges.
+    # A lone prop is the point of the shot, so it goes centre and large rather
+    # than tucked into the first corner slot.
+    if len(ring) == 1:
+        spots, scale = [(540, 452)], sp.get("prop_scale", 1.25)
+    else:
+        spots = [(340, 500), (746, 500), (340, 880), (746, 880), (543, 318)]
+        scale = sp.get("prop_scale", .78)
+    items = "".join(prop(k, *spots[j % len(spots)], scale)
                     for j, k in enumerate(ring))
     note = ""
     if sp.get("note"):

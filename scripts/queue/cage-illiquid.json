@@ -1,0 +1,97 @@
+{
+  "slug": "cage-illiquid",
+  "style": "story",
+  "voice": "en_m",
+  "rate": "+4%",
+  "title": "Nicolas Cage bought a dinosaur skull and went broke",
+  "description": "Two castles, an island and a $276,000 dinosaur skull. None of it was money \u2014 and that is the whole lesson.\n\nNew video every day.",
+  "tags": [
+    "nicolas cage",
+    "illiquid assets",
+    "celebrity money",
+    "net worth",
+    "financial literacy"
+  ],
+  "scenes": [
+    {
+      "scene": {
+        "type": "stage",
+        "name": "cage",
+        "look": "star",
+        "props": [
+          "house",
+          "island"
+        ],
+        "cam": "push"
+      },
+      "say": "Nicolas Cage earned about a hundred and fifty million dollars. Then he told the world he owed the tax office fourteen million."
+    },
+    {
+      "scene": {
+        "type": "stage",
+        "name": "cage",
+        "look": "star",
+        "props": [
+          "house",
+          "house"
+        ],
+        "note": "TWO CASTLES",
+        "cam": "panR"
+      },
+      "say": "He had bought two castles in Europe. One for ten million, one for two point three."
+    },
+    {
+      "scene": {
+        "type": "stage",
+        "name": "cage",
+        "look": "star",
+        "props": [
+          "skull"
+        ],
+        "note": "$276,000",
+        "cam": "creepIn"
+      },
+      "say": "And a dinosaur skull. Two hundred and seventy six thousand dollars, for a head with no body."
+    },
+    {
+      "scene": {
+        "type": "card",
+        "cam": "pull"
+      },
+      "say": "Here is the part that actually matters. None of that was money. A castle is not money. An island is not money. A skull is certainly not money."
+    },
+    {
+      "scene": {
+        "type": "stage",
+        "name": "cage",
+        "look": "star",
+        "props": [
+          "bag"
+        ],
+        "note": "$14M TO THE TAX OFFICE",
+        "cam": "push"
+      },
+      "say": "They are things that cost money to keep. And when the bill arrives, you cannot pay it with a castle."
+    },
+    {
+      "scene": {
+        "type": "duo",
+        "cam": "panL",
+        "left": {
+          "name": "assets"
+        },
+        "right": {
+          "name": "cash"
+        }
+      },
+      "say": "So he sold. In a hurry, to whoever was buying, at whatever they offered."
+    },
+    {
+      "scene": {
+        "type": "card",
+        "cam": "riseUp"
+      },
+      "say": "Rich is what you own. Liquid is what you can actually spend. Most money disasters live in the gap between them."
+    }
+  ]
+}

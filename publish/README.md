@@ -31,3 +31,6 @@
 
 10. **Гасить ипотеку досрочно не очевидно** — `10-mortgage-early-tradeoff.mp4` (леттерпресс)
     Why paying off your mortgage early is not obviously right
+
+11. **Кейдж: замки и череп динозавра** — `11-cage-illiquid.mp4` (иллюстрация)
+    Nicolas Cage bought a dinosaur skull and went broke
