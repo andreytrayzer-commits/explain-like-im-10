@@ -6,7 +6,10 @@ and the haze, not the modelling.
 """
 import bpy, math, sys, os, time
 
-OUT = sys.argv[sys.argv.index("--") + 1] if "--" in sys.argv else "/tmp/plate.png"
+_arg = sys.argv[sys.argv.index("--") + 1] if "--" in sys.argv else "plate.png"
+# Blender resolves a bare relative path against the .blend file, and with no
+# .blend open that landed at the drive root, where writing is refused.
+OUT = os.path.abspath(_arg)
 
 # --- clean slate
 bpy.ops.wm.read_factory_settings(use_empty=True)
@@ -122,3 +125,4 @@ sc.camera = cam
 t0 = time.time()
 bpy.ops.render.render(write_still=True)
 print(f"@@RENDER_SECONDS {time.time() - t0:.1f}")
+print(f"@@SAVED {OUT}")
