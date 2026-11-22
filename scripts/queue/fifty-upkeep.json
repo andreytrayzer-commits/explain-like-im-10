@@ -1,0 +1,38 @@
+{
+  "slug": "fifty-upkeep",
+  "style": "story",
+  "voice": "en_m",
+  "rate": "+4%",
+  "title": "50 Cent bought Mike Tyson's mansion. It cost him $72,000 a month.",
+  "description": "He paid $4.1 million for it. Keeping it cost more than most people earn in a year — every year. The price of a thing is not what you pay for it.\n\nNew video every day.",
+  "tags": ["50 cent", "cost of ownership", "mansion", "celebrity money", "financial literacy"],
+  "scenes": [
+    { "scene": {"type": "plate", "plate": "mansion", "at": "centre",
+                "name": "50 cent", "cam": "push"},
+      "say": "In two thousand three, 50 Cent bought a mansion in Connecticut for four point one million dollars. He bought it from Mike Tyson." },
+
+    { "scene": {"type": "plate", "plate": "mansion", "at": "window",
+                "name": "50 cent", "note": "21 BEDROOMS", "cam": "panR"},
+      "say": "Twenty one bedrooms. Twenty five bathrooms. Nine kitchens. Two pools, a basketball court and a helicopter pad." },
+
+    { "scene": {"type": "plate", "plate": "office", "at": "desk",
+                "character": false, "cam": "creepIn"},
+      "say": "Twelve years later his bankruptcy filing listed what it actually cost to keep." },
+
+    { "scene": {"type": "plate", "plate": "office", "at": "desk",
+                "name": "50 cent", "note": "$72,000 A MONTH", "cam": "push"},
+      "say": "Seventy two thousand dollars a month. Not the mortgage. Just keeping the lights on, the pools warm and the grass cut." },
+
+    { "scene": {"type": "plate", "plate": "empty", "at": "crates",
+                "name": "50 cent", "cam": "riseUp"},
+      "say": "That is more every month than most people earn in a year. For a house nobody was living in." },
+
+    { "scene": {"type": "plate", "plate": "auction", "at": "podium",
+                "character": false, "note": "SOLD: $2.9M", "cam": "pull"},
+      "say": "He listed it at eighteen and a half million. It sold for two point nine." },
+
+    { "scene": {"type": "plate", "plate": "street", "at": "centre",
+                "name": "50 cent", "cam": "panL"},
+      "say": "The price of a thing is not what you pay for it. It is what you pay for it, plus what it costs to keep, minus whatever anyone will give you back." }
+  ]
+}

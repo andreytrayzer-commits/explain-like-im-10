@@ -37,3 +37,6 @@
 
 12. **MC Hammer: 200 человек на зарплате** — `12-hammer-fixed-costs.mp4` (иллюстрация)
     MC Hammer had 200 people on payroll. Then the hits stopped.
+
+13. **50 Cent: особняк Тайсона за $72k в месяц** — `13-fifty-upkeep.mp4` (3D-задники)
+    50 Cent bought Mike Tyson's mansion. It cost him $72,000 a month.

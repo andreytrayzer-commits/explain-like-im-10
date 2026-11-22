@@ -9,6 +9,7 @@ to go. The spoken line still drives the captions from the measured timings.
 import html, json, os
 import phrasing
 import rooms
+import plate_anchors
 from config import ROOT, W, H
 
 HF = os.path.join(ROOT, "hf")
@@ -451,8 +452,37 @@ def sc_room(sp, i):
             % (W, H, back, W, H, crowd, props, hero, note, W, H))
 
 
+def sc_plate(sp, i):
+    """A scene set on a rendered backdrop, with the cast standing in it.
+
+    The plate supplies the room, its light and its atmosphere; the anchor
+    supplies the floor position and the scale that reads as standing at that
+    depth. The flat figure against a rendered room is deliberate.
+    """
+    name = sp.get("plate", "mansion")
+    a = plate_anchors.spot(name, sp.get("at", "centre"))
+    src = os.path.join("assets", "plates", f"{name}.png")
+
+    hero = ("" if sp.get("character") is False else
+            figure(a["x"], a["feet"], a["s"] * sp.get("hs", 1.0), back=False,
+                   coat=sp.get("coat", "blue"), ident=sp.get("name", ""),
+                   rig="hero", look=sp.get("look")))
+
+    props = "".join(prop(k, 230 + j * 620, a["feet"] - 430, sp.get("prop_scale", .62))
+                    for j, k in enumerate(sp.get("props", [])))
+
+    note = rooms.note_plate(esc(sp["note"]), a["feet"] - 560) if sp.get("note") else ""
+
+    return ('<img class="plate" src="%s" width="%d" height="%d"/>'
+            '<svg class="plane mid" viewBox="0 0 %d %d">'
+            '<defs>%s</defs>%s%s%s%s</svg>'
+            % (src, W, H, W, H, plate_anchors.CONTACT_DEF,
+               plate_anchors.shadow(a), props, hero, note))
+
+
 SCENES = {"street": sc_street, "duo": sc_duo, "tally": sc_tally,
-          "card": sc_card, "stage": sc_stage, "room": sc_room}
+          "card": sc_card, "stage": sc_stage, "room": sc_room,
+          "plate": sc_plate}
 
 # (scale, x, y) at the start and end of a scene. Scale never drops below 1.12
 # so a pan has somewhere to pan into.
@@ -492,6 +522,15 @@ def build(episode, timeline, out_path=None):
         a, b_ = CAMS.get(move, CAMS["push"])
         js.append(f'  cam("#w{si}", {t0:.2f}, {dur:.2f}, '
                   f'{{s:{a[0]},x:{a[1]},y:{a[2]}}}, {{s:{b_[0]},x:{b_[1]},y:{b_[2]}}});')
+        # Props and amount plates reveal the same way whatever the scene
+        # type is. Doing this per type meant every new type silently
+        # shipped without it.
+        if spec.get("props"):
+            js.append(f'  pops("#s{si} .prop", {t0+.35:.2f});')
+        if spec.get("note"):
+            js.append(f'  tl.fromTo("#s{si} .note",{{opacity:0,y:30,scale:.9}},'
+                      f'{{opacity:1,y:0,scale:1,duration:.45,ease:"back.out(1.8)",'
+                      f'immediateRender:false}},{t0+0.9:.2f});')
         if spec.get("type") == "street":
             js.append(f'  tl.fromTo("#s{si} .snow",{{y:-40}},{{y:120,duration:{dur:.2f},'
                       f'ease:"none",immediateRender:false}},{t0:.2f});')
@@ -505,12 +544,6 @@ def build(episode, timeline, out_path=None):
         if spec.get("type") == "room":
             if spec.get("crowd"):
                 js.append(f'  pops("#s{si} .crowdOne", {t0+.30:.2f}, .07);')
-            if spec.get("props"):
-                js.append(f'  pops("#s{si} .prop", {t0+.35:.2f});')
-            if spec.get("note"):
-                js.append(f'  tl.fromTo("#s{si} .note",{{opacity:0,y:30,scale:.9}},'
-                          f'{{opacity:1,y:0,scale:1,duration:.45,ease:"back.out(1.8)",'
-                          f'immediateRender:false}},{t0+1.0:.2f});')
         if spec.get("type") == "stage":
             js.append(f'  pops("#s{si} .prop", {t0+.35:.2f});')
             if spec.get("note"):
@@ -566,6 +599,7 @@ def build(episode, timeline, out_path=None):
       /* Aerial perspective, not a blur: distant things lose contrast and go
          cooler. A blur filter cost the whole frame its sharpness - measured at
          280 against the reference's 676 in the comparison that prompted this. */
+      .plate{{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}}
       .plane.far{{filter:saturate(.72) brightness(1.18) contrast(.86);opacity:.92}}
       .plane.far::after{{content:"";position:absolute;inset:0;
         background:#4a6480;opacity:.22;mix-blend-mode:screen}}

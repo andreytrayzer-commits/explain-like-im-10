@@ -1,7 +1,7 @@
 {
   "version": 1,
   "historyId": "c38fe031-efde-4a83-b3be-3cc0f1e84ea6",
-  "currentRevision": "16bf2699-ba03-4afe-95c3-9fb2c03ac400",
+  "currentRevision": "59830e95-de19-4226-a17a-32778e0a30e4",
   "pendingChanges": false,
   "files": {
     "assets/bg_board.png": {
@@ -21,8 +21,8 @@
       "content": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/53/53dbce1e19aa713cbb12ee0bc4d206143b45ab15e6ffbfcaa8f69572d4d24d50"
     },
     "index.html": {
-      "hash": "065c32f5a9cc68082e3a00911c7b748ca8a89bbd3db5028f8b41449f6f8cda15",
-      "content": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/06/065c32f5a9cc68082e3a00911c7b748ca8a89bbd3db5028f8b41449f6f8cda15"
+      "hash": "a6091ad7755a648503e5d08c9e9db353147dc4aa52c06f024c37f1cacc148b2a",
+      "content": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/a6/a6091ad7755a648503e5d08c9e9db353147dc4aa52c06f024c37f1cacc148b2a"
     },
     "meta.json": {
       "hash": "e746a3f513dcda694bc401801e86a35404770c8c4dc5c438933472317785e12e",
@@ -71,6 +71,38 @@
     "preview/rigsheet.html": {
       "hash": "38180f1e3c60771f1b8e4352537eaa2ba75ce23c40f672526ba3eacdfa0b3896",
       "content": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/38/38180f1e3c60771f1b8e4352537eaa2ba75ce23c40f672526ba3eacdfa0b3896"
+    },
+    "assets/plates/auction.png": {
+      "hash": "2e17b3171a64cd669cc7e0390b01ad17a2d5606cc95f6c4291ec02e8f94ea1c3",
+      "content": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/2e/2e17b3171a64cd669cc7e0390b01ad17a2d5606cc95f6c4291ec02e8f94ea1c3"
+    },
+    "assets/plates/empty.png": {
+      "hash": "5bdee841c370a89c73f6882913a29c7e94b2a38db216a22e3087459c5cc2c762",
+      "content": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/5b/5bdee841c370a89c73f6882913a29c7e94b2a38db216a22e3087459c5cc2c762"
+    },
+    "assets/plates/mansion.png": {
+      "hash": "9efa503475f55edb5307d57ed37aaeaac99b35a8e275562ef949fbcaaa560636",
+      "content": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/9e/9efa503475f55edb5307d57ed37aaeaac99b35a8e275562ef949fbcaaa560636"
+    },
+    "assets/plates/office.png": {
+      "hash": "632bc07c0002d22eb1723890ce89df4432774fb2a55e302c084868737bc1de3c",
+      "content": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/63/632bc07c0002d22eb1723890ce89df4432774fb2a55e302c084868737bc1de3c"
+    },
+    "assets/plates/street.png": {
+      "hash": "4d984198837b77f4d82166b82b0494a149c2c6d9dd03856fb3c71ccd447912c9",
+      "content": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/4d/4d984198837b77f4d82166b82b0494a149c2c6d9dd03856fb3c71ccd447912c9"
+    },
+    "assets/plates/vault.png": {
+      "hash": "f4ac7f7f89c2c264e8337277e1d4508f6512f8b7756bfaf560f713d1dd6a6c6e",
+      "content": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/f4/f4ac7f7f89c2c264e8337277e1d4508f6512f8b7756bfaf560f713d1dd6a6c6e"
+    },
+    "preview/fog.html": {
+      "hash": "f075acf11b34d15427084a877716b73712988d9528b295f3b03d7179b6c5867c",
+      "content": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/f0/f075acf11b34d15427084a877716b73712988d9528b295f3b03d7179b6c5867c"
+    },
+    "preview/onplate.html": {
+      "hash": "2026d6b066e1a3f2562e2bb53d258585007b16d14caf9b072270de11e10aa2e0",
+      "content": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/20/2026d6b066e1a3f2562e2bb53d258585007b16d14caf9b072270de11e10aa2e0"
     }
   },
   "revisions": {
@@ -683,6 +715,68 @@
           "after": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/06/065c32f5a9cc68082e3a00911c7b748ca8a89bbd3db5028f8b41449f6f8cda15"
         }
       }
+    },
+    "aae919d9-02e1-412a-85ff-591acc90f7c9": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1795350057240,
+      "endedAt": 1795350057510,
+      "files": {
+        "assets/plates/auction.png": {
+          "before": null,
+          "after": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/2e/2e17b3171a64cd669cc7e0390b01ad17a2d5606cc95f6c4291ec02e8f94ea1c3"
+        },
+        "assets/plates/empty.png": {
+          "before": null,
+          "after": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/5b/5bdee841c370a89c73f6882913a29c7e94b2a38db216a22e3087459c5cc2c762"
+        },
+        "assets/plates/mansion.png": {
+          "before": null,
+          "after": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/9e/9efa503475f55edb5307d57ed37aaeaac99b35a8e275562ef949fbcaaa560636"
+        },
+        "assets/plates/office.png": {
+          "before": null,
+          "after": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/63/632bc07c0002d22eb1723890ce89df4432774fb2a55e302c084868737bc1de3c"
+        },
+        "assets/plates/street.png": {
+          "before": null,
+          "after": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/4d/4d984198837b77f4d82166b82b0494a149c2c6d9dd03856fb3c71ccd447912c9"
+        },
+        "assets/plates/vault.png": {
+          "before": null,
+          "after": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/f4/f4ac7f7f89c2c264e8337277e1d4508f6512f8b7756bfaf560f713d1dd6a6c6e"
+        },
+        "index.html": {
+          "before": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/06/065c32f5a9cc68082e3a00911c7b748ca8a89bbd3db5028f8b41449f6f8cda15",
+          "after": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/6d/6dc2876fe20a3e5fccffc437d56f65bbd95171bd44ed79b1035e0ef4b0827b60"
+        },
+        "preview/fog.html": {
+          "before": null,
+          "after": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/f0/f075acf11b34d15427084a877716b73712988d9528b295f3b03d7179b6c5867c"
+        },
+        "preview/onplate.html": {
+          "before": null,
+          "after": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/20/2026d6b066e1a3f2562e2bb53d258585007b16d14caf9b072270de11e10aa2e0"
+        }
+      }
+    },
+    "59830e95-de19-4226-a17a-32778e0a30e4": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1795351345047,
+      "endedAt": 1795351345049,
+      "files": {
+        "index.html": {
+          "before": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/6d/6dc2876fe20a3e5fccffc437d56f65bbd95171bd44ed79b1035e0ef4b0827b60",
+          "after": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/a6/a6091ad7755a648503e5d08c9e9db353147dc4aa52c06f024c37f1cacc148b2a"
+        }
+      }
     }
   },
   "checks": {
@@ -697,15 +791,15 @@
   },
   "renders": {
     "latest": {
-      "id": "d33fd7a6-831f-40cc-909a-943405dba7ab",
-      "completedAt": 1795305691840,
-      "output": "/Users/air/Desktop/ YouTube/hf/renders/hf_2026-11-22_00-55-24.mp4",
+      "id": "b26f572e-c67f-4991-bd78-227325914220",
+      "completedAt": 1795351626469,
+      "output": "/Users/air/Desktop/ YouTube/hf/renders/hf_2026-11-22_13-42-22.mp4",
       "status": "completed",
-      "revision": "16bf2699-ba03-4afe-95c3-9fb2c03ac400"
+      "revision": "59830e95-de19-4226-a17a-32778e0a30e4"
     },
     "retainedRevisions": [
-      "16bf2699-ba03-4afe-95c3-9fb2c03ac400",
-      "d852d216-dc32-4343-9e7c-dd66919295b9"
+      "59830e95-de19-4226-a17a-32778e0a30e4",
+      "aae919d9-02e1-412a-85ff-591acc90f7c9"
     ]
   },
   "pendingArtifactCleanup": []
