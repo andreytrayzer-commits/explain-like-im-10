@@ -10,6 +10,7 @@ import html, json, os
 import phrasing
 import rooms
 import plate_anchors
+import diagrams
 from config import ROOT, W, H
 
 HF = os.path.join(ROOT, "hf")
@@ -473,11 +474,24 @@ def sc_plate(sp, i):
 
     note = rooms.note_plate(esc(sp["note"]), a["feet"] - 560) if sp.get("note") else ""
 
+    # Show the thing being said: a room count gets a floor plan, a running
+    # cost gets its line items. Words over a photograph show nothing.
+    extra = ""
+    if sp.get("plan"):
+        pl = sp["plan"]
+        extra += diagrams.floorplan(title=pl.get("title", ""),
+                                    count_label=pl.get("label", ""),
+                                    cy=int(pl.get("y", 760)),
+                                    u=int(pl.get("u", 86)))
+    if sp.get("receipt"):
+        extra += diagrams.receipts([(r[0], r[1]) for r in sp["receipt"]],
+                                   cy=int(sp.get("receipt_y", 700)))
+
     return ('<img class="plate" src="%s" width="%d" height="%d"/>'
             '<svg class="plane mid" viewBox="0 0 %d %d">'
             '<defs>%s</defs>%s%s%s%s</svg>'
             % (src, W, H, W, H, plate_anchors.CONTACT_DEF,
-               plate_anchors.shadow(a), props, hero, note))
+               plate_anchors.shadow(a), props, hero, note + extra))
 
 
 SCENES = {"street": sc_street, "duo": sc_duo, "tally": sc_tally,
@@ -525,6 +539,18 @@ def build(episode, timeline, out_path=None):
         # Props and amount plates reveal the same way whatever the scene
         # type is. Doing this per type meant every new type silently
         # shipped without it.
+        if spec.get("plan"):
+            n = int(spec["plan"].get("count", len(diagrams.MANSION_FLOOR)))
+            step = max(.05, min(.22, 2.6 / max(1, n)))
+            js.append(f'  tl.fromTo("#s{si} .planRoom",{{opacity:0,scale:.5,'
+                      f'transformOrigin:"50% 50%"}},{{opacity:1,scale:1,duration:.2,'
+                      f'stagger:{step:.2f},ease:"back.out(2)",immediateRender:false}},'
+                      f'{t0+.5:.2f});')
+            js.append(f'  countUp("#s{si} .planCount", {t0+.5:.2f}, {n*step:.2f}, {n}, "");')
+        if spec.get("receipt"):
+            js.append(f'  tl.fromTo("#s{si} .recLine",{{opacity:0,x:-40}},'
+                      f'{{opacity:1,x:0,duration:.26,stagger:.3,ease:"power3.out",'
+                      f'immediateRender:false}},{t0+.5:.2f});')
         if spec.get("props"):
             js.append(f'  pops("#s{si} .prop", {t0+.35:.2f});')
         if spec.get("note"):
@@ -570,11 +596,20 @@ def build(episode, timeline, out_path=None):
                  if (g["figure"] or g["text"].lower() == emph) else esc(g["text"].upper()))
                 for g in grp)
             start = grp[0]["start"]
-            nxt = (phrases[pi + 1][0]["start"] if pi + 1 < len(phrases)
-                   else grp[-1]["end"] + .45)
+            # Look past the end of the scene: a caption that only checks its
+            # own scene holds across the cut and collides with the next one.
+            if pi + 1 < len(phrases):
+                nxt = phrases[pi + 1][0]["start"]
+            elif si + 1 < len(timeline) and timeline[si + 1]["words"]:
+                nxt = timeline[si + 1]["words"][0]["start"]
+            else:
+                nxt = grp[-1]["end"] + .45
             # hold until just before the next line: two captions on screen at
             # once reads as garbled text
-            hold = max(.26, (nxt - start) - .06)
+            # clear a frame or two before the next line lands: the fade-out
+            # used to still be running when it arrived, and the two read as
+            # one garbled word
+            hold = max(.26, (nxt - start) - .16)
             caps.append(f'<div class="cap" id="c{n}">{txt}</div>')
             js.append(f'  say("#c{n}", {start:.2f}, {hold:.2f});')
             n += 1
