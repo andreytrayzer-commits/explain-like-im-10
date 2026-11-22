@@ -16,7 +16,29 @@ sc = bpy.context.scene
 # Eevee needs a GPU context, which cannot be created headless on this machine
 # (it crashes in GPU_context_create). Cycles renders on the CPU and works.
 sc.render.engine = "CYCLES"
+
+# Use the GPU when the machine has one. OptiX on an RTX card is the whole
+# reason for running this elsewhere; fall back to CPU so the same script still
+# works on the Mac.
+_prefs = bpy.context.preferences.addons.get("cycles")
 sc.cycles.device = "CPU"
+if _prefs:
+    cp = _prefs.preferences
+    for backend in ("OPTIX", "CUDA", "HIP", "METAL", "ONEAPI"):
+        try:
+            cp.compute_device_type = backend
+        except TypeError:
+            continue
+        cp.get_devices()
+        gpus = [d for d in cp.devices if d.type != "CPU"]
+        if gpus:
+            for d in cp.devices:
+                d.use = (d.type != "CPU")
+            sc.cycles.device = "GPU"
+            print(f"@@DEVICE {backend}: " + ", ".join(d.name for d in gpus))
+            break
+if sc.cycles.device == "CPU":
+    print("@@DEVICE CPU")
 sc.cycles.samples = int(os.environ.get("SAMPLES", 48))
 sc.cycles.use_denoising = True
 sc.cycles.max_bounces = 4
