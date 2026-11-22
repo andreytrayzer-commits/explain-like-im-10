@@ -8,6 +8,7 @@ to go. The spoken line still drives the captions from the measured timings.
 """
 import html, json, os
 import phrasing
+import rooms
 from config import ROOT, W, H
 
 HF = os.path.join(ROOT, "hf")
@@ -411,8 +412,47 @@ def sc_stage(sp, i):
   <svg class="plane near" viewBox="0 0 {W} {H}"></svg>'''
 
 
+def sc_room(sp, i):
+    """A scene set in a place, with the cast standing on its floor.
+
+    The backdrop is chosen per scene to match what is being said, so the frame
+    changes with the story instead of staying one gradient throughout.
+    """
+    fy = sp.get("floor", 862)
+    back = rooms.ROOMS.get(sp.get("room", "mansion"), rooms.mansion)(fy)
+
+    crowd = ""
+    n = int(sp.get("crowd", 0))
+    if n:
+        bits = []
+        for k in range(n):
+            row = k // 9
+            x = 108 + (k % 9) * 108 + (30 if row % 2 else 0)
+            y = fy - 16 - row * 36
+            bits.append('<g class="crowdOne" opacity="0">'
+                        + figure(x, y, 0.30 - 0.03 * row, back=False,
+                                 coat=["blue", "brown", "green", "red"][k % 4])
+                        + "</g>")
+        crowd = "".join(bits)
+
+    hero = ("" if sp.get("character") is False else
+            figure(sp.get("hx", 540), fy + 46, sp.get("hs", 1.06), back=False,
+                   coat=sp.get("coat", "blue"), ident=sp.get("name", ""),
+                   rig="hero", look=sp.get("look")))
+
+    props = "".join(prop(k, 250 + j * 580, fy - 320, sp.get("prop_scale", .85))
+                    for j, k in enumerate(sp.get("props", [])))
+
+    note = rooms.note_plate(esc(sp["note"]), fy - 486) if sp.get("note") else ""
+
+    return ('<svg class="plane far" viewBox="0 0 %d %d">%s</svg>'
+            '<svg class="plane mid" viewBox="0 0 %d %d">%s%s%s%s</svg>'
+            '<svg class="plane near" viewBox="0 0 %d %d"></svg>'
+            % (W, H, back, W, H, crowd, props, hero, note, W, H))
+
+
 SCENES = {"street": sc_street, "duo": sc_duo, "tally": sc_tally,
-          "card": sc_card, "stage": sc_stage}
+          "card": sc_card, "stage": sc_stage, "room": sc_room}
 
 # (scale, x, y) at the start and end of a scene. Scale never drops below 1.12
 # so a pan has somewhere to pan into.
@@ -462,6 +502,15 @@ def build(episode, timeline, out_path=None):
                 js.append(f'  tl.fromTo("#s{si} {cls}",{{opacity:0,y:40}},{{opacity:1,y:0,'
                           f'duration:.45,ease:"back.out(1.4)",immediateRender:false}},'
                           f'{t0+.2+k*.35:.2f});')
+        if spec.get("type") == "room":
+            if spec.get("crowd"):
+                js.append(f'  pops("#s{si} .crowdOne", {t0+.30:.2f}, .07);')
+            if spec.get("props"):
+                js.append(f'  pops("#s{si} .prop", {t0+.35:.2f});')
+            if spec.get("note"):
+                js.append(f'  tl.fromTo("#s{si} .note",{{opacity:0,y:30,scale:.9}},'
+                          f'{{opacity:1,y:0,scale:1,duration:.45,ease:"back.out(1.8)",'
+                          f'immediateRender:false}},{t0+1.0:.2f});')
         if spec.get("type") == "stage":
             js.append(f'  pops("#s{si} .prop", {t0+.35:.2f});')
             if spec.get("note"):
@@ -617,9 +666,9 @@ def build(episode, timeline, out_path=None):
       }}
 
       // props land with a squash, then float
-      function pops(sel, at){{
+      function pops(sel, at, step){{
         document.querySelectorAll(sel).forEach((el,i)=>{{
-          const t = at + i*.42;
+          const t = at + i*(step||.42);
           tl.fromTo(el,{{opacity:0,scale:.3,rotation:-14}},
             {{opacity:1,scale:1,rotation:0,duration:.34,ease:"back.out(2.6)",
               transformOrigin:"50% 50%",immediateRender:false}}, t);

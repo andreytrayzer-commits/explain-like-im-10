@@ -34,3 +34,6 @@
 
 11. **Кейдж: замки и череп динозавра** — `11-cage-illiquid.mp4` (иллюстрация)
     Nicolas Cage bought a dinosaur skull and went broke
+
+12. **MC Hammer: 200 человек на зарплате** — `12-hammer-fixed-costs.mp4` (иллюстрация)
+    MC Hammer had 200 people on payroll. Then the hits stopped.

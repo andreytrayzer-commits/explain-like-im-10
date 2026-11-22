@@ -1,0 +1,34 @@
+{
+  "slug": "hammer-fixed-costs",
+  "style": "story",
+  "voice": "en_m",
+  "rate": "+4%",
+  "title": "MC Hammer had 200 people on payroll. Then the hits stopped.",
+  "description": "A mansion with gold gates, a staff of two hundred, and a payroll that did not care how the next record sold.\n\nNew video every day.",
+  "tags": ["mc hammer", "fixed costs", "bankruptcy", "celebrity money", "financial literacy"],
+  "scenes": [
+    { "scene": {"type": "room", "room": "mansion", "name": "hammer", "cam": "push"},
+      "say": "MC Hammer built a mansion with gold plated gates. Twelve million to buy it, thirty million more to rebuild it." },
+
+    { "scene": {"type": "room", "room": "mansion", "name": "hammer", "crowd": 18,
+                "hs": 1.0, "cam": "panR"},
+      "say": "And he hired everyone. Dancers, singers, security, friends. At its peak the payroll ran to about two hundred people." },
+
+    { "scene": {"type": "room", "room": "mansion", "name": "hammer",
+                "note": "$1,000,000 A MONTH", "crowd": 18, "hs": 1.0, "cam": "creepIn"},
+      "say": "By his own account, a million dollars a month went out in wages." },
+
+    { "scene": {"type": "room", "room": "office", "character": false, "cam": "riseUp"},
+      "say": "Here is the trap. Income from records moves up and down. A payroll does not. It arrives on the same day whether the album sold or not." },
+
+    { "scene": {"type": "room", "room": "office", "name": "hammer",
+                "note": "DEBTS $13.7M", "cam": "push"},
+      "say": "When the hits slowed, the wages kept coming. In nineteen ninety six he filed for bankruptcy. Nine point six million in assets, thirteen point seven million in debts." },
+
+    { "scene": {"type": "room", "room": "empty", "name": "hammer", "hs": 1.0, "cam": "pull"},
+      "say": "The mansion went. The staff went. What broke him was not the spending. It was the part of the spending that repeated." },
+
+    { "scene": {"type": "room", "room": "stage", "character": false, "cam": "panL"},
+      "say": "A thing you buy once costs you once. A thing you commit to costs you every month, forever, whatever happens to your income." }
+  ]
+}

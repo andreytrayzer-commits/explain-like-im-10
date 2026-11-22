@@ -1,7 +1,7 @@
 {
   "version": 1,
   "historyId": "c38fe031-efde-4a83-b3be-3cc0f1e84ea6",
-  "currentRevision": "d852d216-dc32-4343-9e7c-dd66919295b9",
+  "currentRevision": "16bf2699-ba03-4afe-95c3-9fb2c03ac400",
   "pendingChanges": false,
   "files": {
     "assets/bg_board.png": {
@@ -21,8 +21,8 @@
       "content": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/53/53dbce1e19aa713cbb12ee0bc4d206143b45ab15e6ffbfcaa8f69572d4d24d50"
     },
     "index.html": {
-      "hash": "08bb15b2a7dfd5791a0bae8181a33006b8a3dc2c63363e8eb29d805f8ca294d3",
-      "content": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/08/08bb15b2a7dfd5791a0bae8181a33006b8a3dc2c63363e8eb29d805f8ca294d3"
+      "hash": "065c32f5a9cc68082e3a00911c7b748ca8a89bbd3db5028f8b41449f6f8cda15",
+      "content": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/06/065c32f5a9cc68082e3a00911c7b748ca8a89bbd3db5028f8b41449f6f8cda15"
     },
     "meta.json": {
       "hash": "e746a3f513dcda694bc401801e86a35404770c8c4dc5c438933472317785e12e",
@@ -668,6 +668,21 @@
           "after": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/08/08bb15b2a7dfd5791a0bae8181a33006b8a3dc2c63363e8eb29d805f8ca294d3"
         }
       }
+    },
+    "16bf2699-ba03-4afe-95c3-9fb2c03ac400": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1795305327817,
+      "endedAt": 1795305327818,
+      "files": {
+        "index.html": {
+          "before": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/08/08bb15b2a7dfd5791a0bae8181a33006b8a3dc2c63363e8eb29d805f8ca294d3",
+          "after": "/Users/air/.cache/hyperframes/history/c38fe031-efde-4a83-b3be-3cc0f1e84ea6/blobs/06/065c32f5a9cc68082e3a00911c7b748ca8a89bbd3db5028f8b41449f6f8cda15"
+        }
+      }
     }
   },
   "checks": {
@@ -682,15 +697,15 @@
   },
   "renders": {
     "latest": {
-      "id": "8820edb5-a9f1-4189-9949-fcb621d4854e",
-      "completedAt": 1795304595056,
-      "output": "/Users/air/Desktop/ YouTube/hf/renders/hf_2026-11-22_00-38-45.mp4",
+      "id": "d33fd7a6-831f-40cc-909a-943405dba7ab",
+      "completedAt": 1795305691840,
+      "output": "/Users/air/Desktop/ YouTube/hf/renders/hf_2026-11-22_00-55-24.mp4",
       "status": "completed",
-      "revision": "d852d216-dc32-4343-9e7c-dd66919295b9"
+      "revision": "16bf2699-ba03-4afe-95c3-9fb2c03ac400"
     },
     "retainedRevisions": [
-      "d852d216-dc32-4343-9e7c-dd66919295b9",
-      "11e1514d-462d-44b6-a9fa-436cdf86f457"
+      "16bf2699-ba03-4afe-95c3-9fb2c03ac400",
+      "d852d216-dc32-4343-9e7c-dd66919295b9"
     ]
   },
   "pendingArtifactCleanup": []
